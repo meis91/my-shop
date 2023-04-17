@@ -1,0 +1,31 @@
+scalar BigDecimal
+
+type Query {
+    allProducts: [Product]
+    findOne(id: ID): Product
+}
+
+type Mutation {
+    createProduct(name: String!, description: String, price: BigDecimal!): Product
+    update(id: ID!, firstName: String, lastName: String): Product
+    delete(id: ID): Product
+}
+
+
+type Product {
+    name: String!
+    description: String
+    price: BigDecimal!
+    productCategory: ProductCategory
+    productInventory: ProductInventory
+}
+
+type ProductCategory {
+    name: String
+    description: String
+}
+
+type ProductInventory {
+    name: String
+    description: String
+}
