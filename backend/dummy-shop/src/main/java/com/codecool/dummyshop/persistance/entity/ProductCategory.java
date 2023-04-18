@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.Set;
 
 @Entity
@@ -16,7 +17,6 @@ public class ProductCategory {
     @GeneratedValue
     private long id;
     private String name;
-    private String description;
     @ManyToMany
     private Set<Product> products;
     @Column(columnDefinition = "TIMESTAMP")
@@ -25,4 +25,9 @@ public class ProductCategory {
     private LocalDateTime modifiedAt;
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime deletedAt;
+
+    public ProductCategory(String name) {
+        this.name = name;
+        this.createdAt = LocalDateTime.now();
+    }
 }

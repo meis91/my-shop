@@ -1,31 +1,44 @@
 scalar BigDecimal
+scalar LocalDateTime
 
 type Query {
+    allProductCategories: [ProductCategory]
     allProducts: [Product]
-    findOne(id: ID): Product
 }
 
 type Mutation {
-    createProduct(name: String!, description: String, price: BigDecimal!): Product
-    update(id: ID!, firstName: String, lastName: String): Product
-    delete(id: ID): Product
-}
-
-
-type Product {
-    name: String!
-    description: String
-    price: BigDecimal!
-    productCategory: ProductCategory
-    productInventory: ProductInventory
+    createProductCategory(name: String!): ProductCategory
+    createProduct(input: ProductInput): Product
 }
 
 type ProductCategory {
-    name: String
-    description: String
+    id: ID!
+    name: String!
+    createdAt: LocalDateTime
 }
 
 type ProductInventory {
-    name: String
-    description: String
+    id: ID!
+    quantity: Int
+    createdAt: LocalDateTime
 }
+
+type Product {
+    id: ID!
+    name: String!
+    price: BigDecimal
+    productCategory: ProductCategory
+    productInventory: ProductInventory
+    createdAt: LocalDateTime
+}
+
+
+input ProductInput {
+    name: String!
+    description: String
+    price: BigDecimal
+    productCategoryId: ID!
+    quantity: Int
+}
+
+

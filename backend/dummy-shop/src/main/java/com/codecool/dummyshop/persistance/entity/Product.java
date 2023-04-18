@@ -10,21 +10,21 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor
-@Builder
-@AllArgsConstructor
+
+
 @Getter
 @Setter
 public class Product {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String name;
     @Column(columnDefinition="TEXT")
     private String description;
     private BigDecimal price;
-    @ManyToMany
-    private Set<ProductCategory> productCategories;
-    @OneToOne
+    @ManyToOne
+    private ProductCategory productCategory;
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private ProductInventory productInventory;
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime createdAt;
