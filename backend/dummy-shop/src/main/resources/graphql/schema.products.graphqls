@@ -2,8 +2,8 @@ scalar BigDecimal
 scalar LocalDateTime
 
 type Query {
-    allProductCategories: [ProductCategory]
-    allProducts: [Product]
+    findAllProductCategories: [ProductCategory]
+    findAllProducts: [Product]
 }
 
 type Mutation {

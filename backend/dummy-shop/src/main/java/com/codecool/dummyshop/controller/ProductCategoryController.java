@@ -20,7 +20,7 @@ public class ProductCategoryController {
     }
 
     @QueryMapping
-    public List<ProductCategory> allProductCategories(){
+    public List<ProductCategory> findAllProductCategories(){
         return productCategoryService.allProductCategories();
     }
 }

@@ -37,7 +37,7 @@ public class ProductController {
     }
 
     @QueryMapping
-    public List<Product> allProducts(){
-        return productService.allProducts();
+    public List<Product> findAllProducts(){
+        return productService.findAllProducts();
     }
 }
