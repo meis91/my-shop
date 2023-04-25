@@ -1,6 +1,6 @@
 {
   "name": "My Shop GraphQL Schema",
-  "schemaPath": "schema.products.graphqls",
+  "schemaPath": "graphql/schema.products.graphqls",
   "extensions": {
     "endpoints": {
       "Default GraphQL Endpoint": {

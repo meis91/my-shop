@@ -7,13 +7,14 @@ type Query {
 }
 
 type Mutation {
-    createProductCategory(name: String!): ProductCategory
+    createProductCategory(name: String): ProductCategory
+    deleteProductCategory(id: ID!): ID
     createProduct(input: ProductInput): Product
 }
 
 type ProductCategory {
     id: ID!
-    name: String!
+    name: String
     createdAt: LocalDateTime
 }
 
@@ -25,16 +26,15 @@ type ProductInventory {
 
 type Product {
     id: ID!
-    name: String!
+    name: String
     price: BigDecimal
     productCategory: ProductCategory
     productInventory: ProductInventory
     createdAt: LocalDateTime
 }
 
-
 input ProductInput {
-    name: String!
+    name: String
     description: String
     price: BigDecimal
     productCategoryId: ID!

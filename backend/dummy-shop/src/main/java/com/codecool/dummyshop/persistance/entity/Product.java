@@ -1,11 +1,13 @@
 package com.codecool.dummyshop.persistance.entity;
 
+import graphql.scalars.datetime.DateTimeScalar;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Set;
 
 @Entity

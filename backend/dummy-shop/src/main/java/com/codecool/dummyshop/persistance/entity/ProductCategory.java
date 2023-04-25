@@ -30,4 +30,16 @@ public class ProductCategory {
         this.name = name;
         this.createdAt = LocalDateTime.now();
     }
+
+    @Override
+    public String toString() {
+        return "ProductCategory{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", products=" + products +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                ", deletedAt=" + deletedAt +
+                '}';
+    }
 }
