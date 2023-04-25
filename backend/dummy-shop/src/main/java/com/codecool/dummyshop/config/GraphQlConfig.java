@@ -9,10 +9,11 @@ import org.springframework.stereotype.Controller;
 @Configuration
 public class GraphQlConfig {
     @Bean
-
     public RuntimeWiringConfigurer runtimeWiringConfigurer() {
         return wiringBuilder -> wiringBuilder
                 .scalar(ExtendedScalars.GraphQLBigDecimal)
                 .scalar(ExtendedScalars.DateTime);
     }
+
+
 }
