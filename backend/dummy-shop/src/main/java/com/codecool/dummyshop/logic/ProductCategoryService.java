@@ -14,7 +14,7 @@ import java.util.Optional;
 public class ProductCategoryService {
     private final ProductCategoryRepository productCategoryRepository;
 
-    public ProductCategory create(String name){
+    public ProductCategory createProductCategory(String name){
         ProductCategory productCategory = new ProductCategory(name);
         return productCategoryRepository.save(productCategory);
     }

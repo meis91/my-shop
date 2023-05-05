@@ -10,6 +10,8 @@ type Mutation {
     createProductCategory(name: String): ProductCategory
     deleteProductCategory(id: ID!): ID
     createProduct(input: ProductInput): Product
+    createDiscount(name: String,percentage: Int): Discount
+    setProductDiscount(productId: ID!, discountId: ID): Product
 }
 
 type ProductCategory {
@@ -28,8 +30,16 @@ type Product {
     id: ID!
     name: String
     price: BigDecimal
+    discountedPrice: BigDecimal
     productCategory: ProductCategory
     productInventory: ProductInventory
+    createdAt: LocalDateTime
+}
+
+type Discount {
+    id:ID!
+    name: String
+    percentage: Int
     createdAt: LocalDateTime
 }
 
@@ -40,5 +50,7 @@ input ProductInput {
     productCategoryId: ID!
     quantity: Int
 }
+
+
 
 

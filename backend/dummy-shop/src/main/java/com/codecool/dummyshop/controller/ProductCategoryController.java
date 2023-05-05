@@ -17,7 +17,7 @@ public class ProductCategoryController {
     private final ProductCategoryService productCategoryService;
     @MutationMapping
     public ProductCategory createProductCategory(@Argument String name){
-        return productCategoryService.create(name);
+        return productCategoryService.createProductCategory(name);
     }
 
     @QueryMapping

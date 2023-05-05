@@ -1,5 +1,7 @@
 package com.codecool.dummyshop.logic;
 
+import com.codecool.dummyshop.logic.util.DiscountCalculation;
+import com.codecool.dummyshop.persistance.entity.Discount;
 import com.codecool.dummyshop.persistance.entity.Product;
 import com.codecool.dummyshop.persistance.repositiory.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
+    private final DiscountService discountService;
 
 
     public Product create(Product product){
@@ -36,5 +39,18 @@ public class ProductService {
 
     public List<Product> findAllProducts() {
         return productRepository.findAll();
+    }
+
+    public Product setProductDiscount(long productId, long discountId) throws Exception {
+        Optional<Product> productOptional = findById(productId);
+        Optional<Discount> discountOptional = discountService.findById(discountId);
+        if(productOptional.isPresent() && discountOptional.isPresent()){
+            BigDecimal price = productOptional.get().getPrice();
+            int discountPercentage = discountOptional.get().getPercentage();
+            productOptional.get().setDiscountedPrice(DiscountCalculation.decreasePercentage(price, discountPercentage));
+            return productRepository.save(productOptional.get());
+        } else {
+            throw new Exception("Product or Discount not found");
+        }
     }
 }

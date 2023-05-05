@@ -40,4 +40,11 @@ public class ProductController {
     public List<Product> findAllProducts(){
         return productService.findAllProducts();
     }
+
+    @MutationMapping
+    public Product setProductDiscount(@Argument long productId , @Argument long discountId) throws Exception {
+        return productService.setProductDiscount(productId, discountId);
+    }
 }
+
+

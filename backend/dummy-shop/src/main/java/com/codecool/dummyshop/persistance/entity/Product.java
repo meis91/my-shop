@@ -12,8 +12,6 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor
-
-
 @Getter
 @Setter
 public class Product {
@@ -24,6 +22,7 @@ public class Product {
     @Column(columnDefinition="TEXT")
     private String description;
     private BigDecimal price;
+    private BigDecimal discountedPrice;
     @ManyToOne
     private ProductCategory productCategory;
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
