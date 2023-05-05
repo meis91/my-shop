@@ -1,5 +1,7 @@
 package com.codecool.dummyshop.logic;
 
+import com.codecool.dummyshop.logic.exeptions.DiscountNotFoundException;
+import com.codecool.dummyshop.logic.exeptions.ProductNotFoundException;
 import com.codecool.dummyshop.logic.util.DiscountCalculation;
 import com.codecool.dummyshop.persistance.entity.Discount;
 import com.codecool.dummyshop.persistance.entity.Product;
@@ -42,15 +44,24 @@ public class ProductService {
     }
 
     public Product setProductDiscount(long productId, long discountId) throws Exception {
+        //Product product = findById(productId).get();
+       // Discount discount = discountService.findById(discountId).get();
         Optional<Product> productOptional = findById(productId);
         Optional<Discount> discountOptional = discountService.findById(discountId);
-        if(productOptional.isPresent() && discountOptional.isPresent()){
-            BigDecimal price = productOptional.get().getPrice();
-            int discountPercentage = discountOptional.get().getPercentage();
-            productOptional.get().setDiscountedPrice(DiscountCalculation.decreasePercentage(price, discountPercentage));
-            return productRepository.save(productOptional.get());
+        if(productOptional.isPresent()){
+            Product product = productOptional.get();
+            if(discountOptional.isPresent()){
+                Discount discount = discountOptional.get();
+                BigDecimal price = product.getPrice();
+                int discountPercentage = discount.getPercentage();
+                product.setDiscount(discount);
+                product.setDiscountedPrice(DiscountCalculation.decreasePercentage(price, discountPercentage));
+                return productRepository.save(productOptional.get());
+            } else {
+                throw new DiscountNotFoundException(discountId);
+            }
         } else {
-            throw new Exception("Product or Discount not found");
+            throw new ProductNotFoundException(productId);
         }
     }
 }

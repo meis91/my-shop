@@ -24,6 +24,8 @@ public class Product {
     private BigDecimal price;
     private BigDecimal discountedPrice;
     @ManyToOne
+    private Discount discount;
+    @ManyToOne
     private ProductCategory productCategory;
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private ProductInventory productInventory;
