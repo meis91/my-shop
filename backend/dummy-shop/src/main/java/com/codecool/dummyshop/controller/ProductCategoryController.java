@@ -33,7 +33,7 @@ public class ProductCategoryController {
 
     @PostConstruct
     private void populate(){
-        createProductCategory("tea");
-        createProductCategory("food");
+        createProductCategory("Tea");
+        createProductCategory("Food");
     }
 }

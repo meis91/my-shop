@@ -44,8 +44,6 @@ public class ProductService {
     }
 
     public Product setProductDiscount(long productId, long discountId) throws Exception {
-        //Product product = findById(productId).get();
-       // Discount discount = discountService.findById(discountId).get();
         Optional<Product> productOptional = findById(productId);
         Optional<Discount> discountOptional = discountService.findById(discountId);
         if(productOptional.isPresent()){

@@ -7,25 +7,25 @@ import {LOAD_PRODUCT_CATEGORIES} from "../graphQL/queries";
 import ProductCategoryField from "../components/ProductCategoryField";
 import ProductCategorySelectFields from "../components/ProductCategorySelectFields";
 
-/*interface productCategories {
-    id: number;
-    name: string;
-}*/
-interface productCategory {
-    id: number;
+export type ProductCategory = {
+    id: string;
     name: string;
 }
-function CreateProduct() {
-    const { loading, error, data } = useQuery(LOAD_PRODUCT_CATEGORIES);
-    const [productCategories, setProductCategories] = useState<productCategory[]>([]);
-    const [newCategory, setNewCategory] = useState(false);
 
+export type ProductCategories = {
+    findAllProductCategories: ProductCategory[];
+}
+function CreateProduct() {
+    const [productCategories, setProductCategories] = useState<ProductCategory[]>([]);
+    const { loading, error, data } = useQuery(LOAD_PRODUCT_CATEGORIES);
+   /* const [category, setCategory] = useState<ProductCategory>({id: "", name: ""});
+    const [newCategory, setNewCategory] = useState(false);*/
     const newProductForm = useFormik({
         initialValues: {
             name: "",
             description: "",
             price: 0.0,
-            productCategory: {},
+            productCategory: "",
             quantity:0,
         },
 
@@ -33,15 +33,25 @@ function CreateProduct() {
 
         },
     });
-    useEffect(() => {
 
-        setProductCategories(data);
+
+
+    useEffect(() => {
+        console.log(data)
+        if(data){
+            setProductCategories(data.findAllProductCategories);
+        }
     },[data]);
+
+    if (loading) return <p>Loading...</p>;
+    if (error) return <p>Error :(</p>;
+    //setProductCategories(data.findAllProductCategories);
+    if(!productCategories) return <p>Fetching...</p>;
 
 
     return (
         <>
-            <Container component="main" maxWidth="sm">
+            <Container component="main" maxWidth="sm" className="mui-container-fluid">
                 <Box
                     sx={{
                         boxShadow: 3,
@@ -54,31 +64,34 @@ function CreateProduct() {
                         alignItems: "center",
                     }}
                 >
+
                     <Typography component="h2" variant="h5">
                         Create a new Product
                     </Typography>
                     <form>
-                        <TextField sx={{ m: 1, width: '300px',  minWidth:"300px" }}
+                        <TextField align="left"
+                                   sx={{ m: 1, width: '300px',  minWidth:"300px" }}
                                    margin="normal"
                                    id="outlined-select-measurement"
                                    name="productCategory"
                                    select
                                    label="Product Category"
-                                   value=""
+                                   value={newProductForm.values.productCategory}
+                                   onChange={newProductForm.handleChange}
                         >
-                            <ProductCategorySelectFields productCategories={productCategories}/>
-                            {/*{productCategories.map(productCategory => (
+                            {/*<ProductCategorySelectFields productCategories={productCategories}/>*/}
+                            {productCategories.map(productCategory => (
                                 <MenuItem key={productCategory.id} value={productCategory.id}>
                                     {productCategory.name}
                                 </MenuItem>
-                            ))}*/}
+                            ))}
                         </TextField>
 
                         <TextInputField
-                            name={newProductForm.initialValues.name}
-                            type={"text"}
-                            label={"Name"}
-                            placeholder={"Product Name"}
+                            value={newProductForm.initialValues.name}
+                            type="text"
+                            label="Name"
+                            placeholder="Product Name"
                             handleInput={newProductForm.handleChange}
                         />
 
