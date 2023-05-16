@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useQuery} from "@apollo/client";
-import {LOAD_PRODUCT_CATEGORIES} from "../graphQL/queries";
+import {LOAD_PRODUCT_CATEGORIES} from "../graphql/queries";
 import {Field} from "formik";
 import {MenuItem, TextField} from "@mui/material";
 

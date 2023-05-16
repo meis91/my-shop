@@ -1,0 +1,6 @@
+query findAllProductCategories{
+    findAllProductCategories{
+        id
+        name
+    }
+}

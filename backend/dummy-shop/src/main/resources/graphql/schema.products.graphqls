@@ -9,7 +9,7 @@ type Query {
 type Mutation {
     createProductCategory(name: String): ProductCategory
     deleteProductCategory(id: ID!): ID
-    createProduct(input: ProductInput): Product
+    createProduct(productInput: ProductInput): Product
     createDiscount(name: String,percentage: Int): Discount
     setProductDiscount(productId: ID!, discountId: ID): Product
 }
@@ -48,7 +48,7 @@ input ProductInput {
     name: String
     description: String
     price: BigDecimal
-    productCategoryId: ID!
+    productCategoryId: ID
     quantity: Int
 }
 

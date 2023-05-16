@@ -22,7 +22,8 @@ public class ProductController {
     private final ProductService productService;
     private final ProductCategoryService productCategoryService;
     @MutationMapping
-    public Product createProduct(@Argument(name = "input") ProductInput productInput){
+    public Product createProduct(@Argument(name = "productInput") ProductInput productInput){
+        System.out.println("productInput = " + productInput);
         Product product = productInput.getProductEntity();
         ProductInventory productInventory = productInput.getProductInventoryEntity();
         product.setProductInventory(productInventory);

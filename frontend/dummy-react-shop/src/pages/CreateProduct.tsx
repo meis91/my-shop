@@ -1,102 +1,173 @@
 import React, {useEffect, useState} from 'react';
-import {Box, Container, MenuItem, TextField, Typography} from "@mui/material";
-import {Field, Form, Formik, useFormik} from "formik";
+import {
+    Box,
+    Button,
+    Container,
+    FormControl,
+    Grid,
+    MenuItem,
+    TextField,
+    Typography
+} from "@mui/material";
+
+import {Field, Form, Formik, useFormik, useFormikContext} from "formik";
 import TextInputField from "../components/TextInputField";
-import {useQuery} from "@apollo/client";
-import {LOAD_PRODUCT_CATEGORIES} from "../graphQL/queries";
-import ProductCategoryField from "../components/ProductCategoryField";
-import ProductCategorySelectFields from "../components/ProductCategorySelectFields";
+import {gql, useMutation, useQuery} from "@apollo/client";
+import {ProductCategoriesProps} from "../App";
+import {CreateProductDocument, InputMaybe, Maybe, ProductCategory, ProductInput, Scalars} from "../gql/graphql";
 
-export type ProductCategory = {
-    id: string;
-    name: string;
-}
 
-export type ProductCategories = {
-    findAllProductCategories: ProductCategory[];
-}
-function CreateProduct() {
-    const [productCategories, setProductCategories] = useState<ProductCategory[]>([]);
-    const { loading, error, data } = useQuery(LOAD_PRODUCT_CATEGORIES);
-   /* const [category, setCategory] = useState<ProductCategory>({id: "", name: ""});
-    const [newCategory, setNewCategory] = useState(false);*/
+
+type ProductInput = {
+    description?: InputMaybe<Scalars['String']>;
+    name?: InputMaybe<Scalars['String']>;
+    price?: InputMaybe<Scalars['BigDecimal']>;
+    productCategoryId?: InputMaybe<Scalars['ID']>;
+    quantity?: InputMaybe<Scalars['Int']>;
+};
+
+const CREATE_PRODUCT = gql`
+    mutation createProduct(
+        $productInput: ProductInput
+        ){
+        createProduct(
+            productInput: $productInput
+        ){
+            id
+            name
+        }
+    }
+`;
+
+function CreateProduct({productCategories}: ProductCategoriesProps) {
+    /*const [productCategories, setProductCategories] = useState<ProductCategory[]>([]);*/
+    const [createProduct, { loading, error, data}] = useMutation(CREATE_PRODUCT);
+
+
     const newProductForm = useFormik({
         initialValues: {
-            name: "",
-            description: "",
-            price: 0.0,
-            productCategory: "",
-            quantity:0,
+                name: "",
+                description: "",
+                price: 0,
+                productCategory: "1",
+                quantity: 0,
+
         },
 
         onSubmit: values => {
-
+            console.log(values);
+            let newProduct : ProductInput = {
+                name: values.name,
+                description: values.description,
+                price: values.price,
+                productCategoryId: values.productCategory,
+                quantity: values.quantity
+            }
+            createProduct({
+                variables: {
+                    productInput: newProduct,
+                },
+            })
+                .then((response) => {
+                    console.log(response.data.createProduct);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
         },
     });
 
 
-
-    useEffect(() => {
-        console.log(data)
-        if(data){
-            setProductCategories(data.findAllProductCategories);
-        }
-    },[data]);
-
     if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
-    //setProductCategories(data.findAllProductCategories);
+
     if(!productCategories) return <p>Fetching...</p>;
 
 
     return (
         <>
             <Container component="main" maxWidth="sm" className="mui-container-fluid">
-                <Box
-                    sx={{
-                        boxShadow: 3,
-                        borderRadius: 2,
-                        px: 4,
-                        py: 6,
-                        marginTop: 8,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                    }}
-                >
 
-                    <Typography component="h2" variant="h5">
-                        Create a new Product
-                    </Typography>
-                    <form>
-                        <TextField align="left"
-                                   sx={{ m: 1, width: '300px',  minWidth:"300px" }}
-                                   margin="normal"
-                                   id="outlined-select-measurement"
-                                   name="productCategory"
-                                   select
-                                   label="Product Category"
-                                   value={newProductForm.values.productCategory}
-                                   onChange={newProductForm.handleChange}
-                        >
-                            {/*<ProductCategorySelectFields productCategories={productCategories}/>*/}
-                            {productCategories.map(productCategory => (
-                                <MenuItem key={productCategory.id} value={productCategory.id}>
-                                    {productCategory.name}
-                                </MenuItem>
-                            ))}
-                        </TextField>
+                    <Box
+                        sx={{
+                            boxShadow: 3,
+                            borderRadius: 2,
+                            px: 4,
+                            py: 6,
+                            marginTop: 8,
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                        }}
+                    >
+                        <form onSubmit={newProductForm.handleSubmit}>
+                        <Grid container spacing={2} rowSpacing={2}>
+                            <Grid item xs={12}>
+                                <Typography component="h2" variant="h5">
+                                    Create a new Product
+                                </Typography>
+                            </Grid>
 
-                        <TextInputField
-                            value={newProductForm.initialValues.name}
-                            type="text"
-                            label="Name"
-                            placeholder="Product Name"
-                            handleInput={newProductForm.handleChange}
-                        />
+                            <Grid item xs={12}>
+                                {/*https://codesandbox.io/s/66749678custom-text-in-mui-select-component-zm5lc?file=/index.js*/}
+                                <FormControl sx={{width: "100%"}}>
+                                    <TextField
+                                        id="outlined-select"
+                                        name="productCategory"
+                                        select
+                                        align="left"
+                                        margin="normal"
+                                        label="Product Category"
+                                        /*value={newProductForm.values.productCategory}*/
+                                        onChange={newProductForm.handleChange}
+                                    >
+                                        {productCategories.map((productCategory: { id: string, name: string }) => (
+                                            <MenuItem key={productCategory.id} value={productCategory.id}>
+                                                {productCategory.name}
+                                            </MenuItem>
+                                        ))}
+                                    </TextField>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextInputField
+                                    name="name"
+                                    handleInput={newProductForm.handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12} >
+                                <TextInputField
+                                    name="description"
+                                    handleInput={newProductForm.handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextInputField
+                                    name="price"
+                                    handleInput={newProductForm.handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12} >
+                                <TextInputField
+                                    name="quantity"
+                                    handleInput={newProductForm.handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }} >
+                                <Button
+                                    type="submit"
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{mt: 3, mb: 2, width: "50%"}}
+                                >
+                                    Submit
+                                </Button>
+                            </Grid>
 
-                    </form>
-                </Box>
+                        </Grid>
+                        </form>
+                    </Box>
+                <div>{JSON.stringify(newProductForm.values)}</div>
             </Container>
 
         </>
