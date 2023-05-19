@@ -4,6 +4,7 @@ import {TextField} from "@mui/material";
 function TextInputField({name, handleInput}:{
     name:string, handleInput:Function
 }) {
+    // @ts-ignore
     return (
         <>
             <TextField
@@ -13,7 +14,7 @@ function TextInputField({name, handleInput}:{
                 label={capitalizeFirstLetter(name)}
                 id="outlined-start"
                 placeholder={capitalizeFirstLetter(name)}
-                sx={{ width:'100%' }}
+                sx={{ width:"100%" }}
             />
         </>
     );

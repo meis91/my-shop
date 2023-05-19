@@ -52,6 +52,8 @@ input ProductInput {
     quantity: Int
 }
 
-
-
+input DiscountInput {
+    name: String!
+    percentage: Int!
+}
 

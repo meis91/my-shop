@@ -1,44 +1,56 @@
 import './App.css'
 import CreateProduct from "./pages/CreateProduct";
-import {gql, useQuery} from "@apollo/client";
-import {LOAD_PRODUCT_CATEGORIES} from "./graphql/queries";
-import {useEffect, useState} from "react";
-import {ProductCategory} from "./gql/graphql";
-import {useFindAllProductCategoriesQuery} from "./__generated__/graphql";
+import React, { useEffect, useState} from "react";
+import {useFindAllProductCategoriesQuery, useFindAllProductsQuery} from "./__generated__/graphql";
+import NewProductForm from "./pages/NewProductForm";
+import {Link, Route, Routes, Switch} from "react-router-dom";
+import SelectProductCategory from "./pages/SelectProductCategory";
+import Discounts from './pages/Discounts';
+import Index from "./pages/Index";
+import {Box, Container} from "@mui/material";
 
-export type ProductCategoryData = {
-    id: string
-    name: string
-}
 
-export type ProductCategoriesProps = {
-    productCategories: ProductCategory[]
-};
 
 
 function App() {
-    const { data, loading, error } = useFindAllProductCategoriesQuery() /*useQuery(LOAD_PRODUCT_CATEGORIES);*/
-    const [productCategories, setProductCategories] = useState<ProductCategoriesProps>();
+    const { data, loading, error } = useFindAllProductsQuery();
 
     useEffect(() => {
         console.log(data)
-        if(data){
-            let productCategories: ProductCategoriesProps;
-            data.findAllProductCategories?.map(category => {
-                let productCategory : ProductCategoryData = { id : category?.id, name : category?.name}
-            })
 
-            setProductCategories(data.findAllProductCategories);
-            console.log(productCategories);
-        }
-    },[data]);
-
+    }, [data]);
+    // @ts-ignore
+    // @ts-ignore
     return (
     <div className="App">
-      <h1>Adriano's Shop</h1>
-        {loading && <div>Loading..</div>}
-        {error && <div>Error</div>}
-        {data && <CreateProduct productCategories={data.findAllProductCategories}/>}
+      <h1>Admin Shop</h1>
+        <Container
+            component="main"
+            maxWidth="md"
+            className="mui-container-fluid"
+            sx={{ minWidth: 600, maxWidth: 600 }}
+        >
+            <Box
+                sx={{
+                    boxShadow: 3,
+                    borderRadius: 2,
+                    px: 4,
+                    py: 6,
+                    marginTop: 8,
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                }}
+            >
+                <Routes>
+                    <Route path="/" element={<Index/>}/>
+                    <Route path="/product/*" element={<NewProductForm/>}/>
+                    <Route path="/category" element={<NewProductForm/>}/>
+                    <Route path="/discount" element={<Discounts/>}/>
+                    <Route path="/brands/*" element={<NewProductForm/>}/>
+                </Routes>
+            </Box>
+        </Container>
 
     </div>
   )

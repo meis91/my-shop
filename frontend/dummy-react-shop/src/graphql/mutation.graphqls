@@ -4,3 +4,21 @@ mutation createProduct($productInput: ProductInput){
         name
     }
 }
+
+mutation createProductCategory($name: String){
+       createProductCategory(name: $name){
+           id
+           name
+    }
+}
+
+mutation createDiscount($name: String,
+                        $percentage: Int){
+    createDiscount( name: $name
+                    percentage: $percentage
+                ){
+            id
+            name
+            percentage
+    }
+}
