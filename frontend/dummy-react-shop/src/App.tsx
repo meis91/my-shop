@@ -8,6 +8,8 @@ import SelectProductCategory from "./pages/SelectProductCategory";
 import Discounts from './pages/Discounts';
 import Index from "./pages/Index";
 import {Box, Container} from "@mui/material";
+import Categories from "./pages/Categories";
+import Products from "./pages/Products";
 
 
 
@@ -44,8 +46,8 @@ function App() {
             >
                 <Routes>
                     <Route path="/" element={<Index/>}/>
-                    <Route path="/product/*" element={<NewProductForm/>}/>
-                    <Route path="/category" element={<NewProductForm/>}/>
+                    <Route path="/product/*" element={<Products/>}/>
+                    <Route path="/category" element={<Categories/>}/>
                     <Route path="/discount" element={<Discounts/>}/>
                     <Route path="/brands/*" element={<NewProductForm/>}/>
                 </Routes>

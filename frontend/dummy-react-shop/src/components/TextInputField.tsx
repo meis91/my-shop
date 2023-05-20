@@ -1,5 +1,15 @@
 import React from 'react';
 import {TextField} from "@mui/material";
+import {FormikProps} from "formik";
+
+
+interface MyFormValues {
+    name: string;
+}
+interface MyFormProps extends FormikProps<MyFormValues> {
+    error: (field: string) => string | undefined;
+    helper: (field: string) => string | undefined;
+}
 
 function TextInputField({name, handleInput}:{
     name:string, handleInput:Function

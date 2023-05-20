@@ -1,45 +1,55 @@
 import React from 'react';
 import {Button, Grid, TextField, Typography} from "@mui/material";
-import TextInputField from "../components/TextInputField";
-import {
-    Discount,
-    DiscountInput,
-    ProductInput,
-    useCreateDiscountMutation,
-    useCreateProductMutation
-} from "../__generated__/graphql";
+import { useCreateDiscountMutation } from "../__generated__/graphql";
 import {useFormik} from "formik";
 import {useNavigate} from "react-router-dom";
+import * as yup from 'yup';
+import Loading from "../components/Loading";
 
 function Discounts() {
-    const [createDiscount, { loading, error, data}] = useCreateDiscountMutation();
     const navigate = useNavigate();
+    const [createDiscount, {loading, error, data}] = useCreateDiscountMutation();
+
+    // @ts-ignore
+    const createDiscountValidationSchema = yup.object({
+        name: yup
+            .string()
+            .required("Discount Name is required!"),
+        percentage: yup
+            .number()
+            .typeError("Please enter a valid number")
+            .min(1, "The percentage must be between 1-70")
+            .max(70, "The percentage must be between 1-70")
+            .required("Percentage is required")
+    });
+
+
     const formik = useFormik({
         initialValues: {
             name: "",
-            percentage: 0,
+            percentage: 5,
         },
-        onSubmit: values => {
-            console.log(values);
-            createDiscount({
-                variables: {
-                    name: values.name,
-                    percentage: values.percentage
-                },
-            })
-                .then((response) => {
-                    // @ts-ignore
-                    console.log(response.data);
-                    navigate("/");
-                })
-                .catch((error) => {
-                    console.error(error);
+        validationSchema: createDiscountValidationSchema,
+        onSubmit: async (values) => {
+            try {
+                const response = await createDiscount({
+                    variables: {
+                        name: values.name,
+                        percentage: values.percentage,
+                    },
                 });
+
+                console.log(response.data);
+                navigate("/");
+            } catch (error) {
+                console.error(error);
+            }
         },
     });
 
     return (
-        <>
+        <div style={{ maxWidth: "300px" }}>
+            {loading && <Loading/>}
             <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2} rowSpacing={2}>
                     <Grid item xs={12}>
@@ -48,20 +58,29 @@ function Discounts() {
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextInputField
-                            name="name"
-                            handleInput={formik.handleChange}
+                        <TextField
+                            margin="normal"
+                            fullWidth
+                            id="name"
+                            label="Name"
+                            autoFocus
+                            {...formik.getFieldProps("name")}
+                            error={formik.touched.name && Boolean(formik.errors.name)}
+                            helperText={formik.touched.name && formik.errors.name}
                         />
                     </Grid>
                     <Grid item xs={12}>
                         <TextField
-                            name="percentage"
-                            type="number"
-                            onChange={formik.handleChange}
+                            margin="normal"
+                            fullWidth
+                            id="percentage"
                             label="Percentage"
-                            id="outlined-start"
-                            placeholder="Price Reduction Percentage"
-                            sx={{ width:"100%" }}
+                            {...formik.getFieldProps("percentage")}
+                            error={formik.touched.percentage && Boolean(formik.errors.percentage)}
+                            helperText={formik.touched.percentage && formik.errors.percentage}
+                            InputProps={{
+                                endAdornment: <Typography variant="body1">%</Typography>,
+                            }}
                         />
                     </Grid>
                     <Grid item xs={12} sx={{display: "flex", justifyContent: "center"}}>
@@ -77,7 +96,7 @@ function Discounts() {
                 </Grid>
             </form>
             <div>{JSON.stringify(formik.values)}</div>
-        </>
+        </div>
     );
 }
 
