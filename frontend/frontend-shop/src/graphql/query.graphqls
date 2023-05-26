@@ -1,0 +1,30 @@
+query findAllProductCategories{
+    findAllProductCategories{
+        id
+        name
+    }
+}
+
+query findAllProducts{
+    findAllProducts{
+        id
+        name
+        description
+        price
+        discountedPrice
+        discount {
+            id
+            name
+            percentage
+        }
+        productCategory{
+            id
+            name
+        }
+        productInventory{
+            id
+            quantity
+        }
+        createdAt
+    }
+}
