@@ -4,6 +4,7 @@ scalar LocalDateTime
 type Query {
     findAllProductCategories: [ProductCategory]
     findAllProducts: [Product]
+    findProduct(id: ID!): Product
 }
 
 type Mutation {
@@ -12,6 +13,7 @@ type Mutation {
     createProduct(productInput: ProductInput): Product
     createDiscount(name: String,percentage: Int): Discount
     setProductDiscount(productId: ID!, discountId: ID): Product
+    deleteProduct(productId: ID!): ID
 }
 
 type ProductCategory {

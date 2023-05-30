@@ -5,6 +5,10 @@ mutation createProduct($productInput: ProductInput){
     }
 }
 
+mutation DeleteProduct($productId: ID!) {
+    deleteProduct(productId: $productId)
+}
+
 mutation createProductCategory($name: String){
        createProductCategory(name: $name){
            id

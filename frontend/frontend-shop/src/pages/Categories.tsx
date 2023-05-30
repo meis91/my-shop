@@ -10,13 +10,10 @@ import Loading from "../components/Loading";
 const Categories = () => {
     const navigate = useNavigate();
     const [createProductCategory, { loading, error, data }] = useCreateProductCategoryMutation();
-    const { refetch: refetchCategories } = useFindAllProductCategoriesQuery();
 
     const createCategoryValidationSchema = yup.object({
         name: yup.string().required("Category Name is required!"),
     });
-
-
 
     const formik = useFormik({
         initialValues: {
@@ -30,9 +27,7 @@ const Categories = () => {
                         name: values.name,
                     },
                 });
-
                 console.log(response.data);
-                await refetchCategories();
                 navigate(-1);
             } catch (error) {
                 console.error(error);

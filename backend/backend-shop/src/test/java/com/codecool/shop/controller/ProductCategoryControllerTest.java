@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.graphql.test.tester.GraphQlTester;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+
 import static org.mockito.Mockito.verify;
 
 @GraphQlTest(ProductCategoryController.class)

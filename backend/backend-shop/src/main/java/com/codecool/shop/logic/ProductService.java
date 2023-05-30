@@ -34,9 +34,9 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product delete(Product product){
-        productRepository.delete(product);
-        return product;
+    public long deleteProduct(long productId){
+        productRepository.deleteById(productId);
+        return productId;
     }
 
     public List<Product> findAllProducts() {
@@ -58,6 +58,15 @@ public class ProductService {
             } else {
                 throw new DiscountNotFoundException(discountId);
             }
+        } else {
+            throw new ProductNotFoundException(productId);
+        }
+    }
+
+    public Product findProduct(long productId) {
+        Optional<Product> product = productRepository.findById(productId);
+        if(product.isPresent()){
+            return product.get();
         } else {
             throw new ProductNotFoundException(productId);
         }

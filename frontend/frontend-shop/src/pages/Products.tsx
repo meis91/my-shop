@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Grid, InputLabel, MenuItem, Select, TextField, Typography} from "@mui/material";
 import {
+    ProductCategory,
     ProductInput,
     useCreateProductMutation,
-    useFindAllProductCategoriesQuery, useFindAllProductsQuery
+    useFindAllProductCategoriesQuery,
 } from "../__generated__/graphql";
 import {useFormik} from "formik";
 import {Link, useNavigate} from "react-router-dom";
@@ -12,10 +13,9 @@ import Loading from "../components/Loading";
 
 function Products() {
     const navigate = useNavigate();
-    const { data: categoriesData, loading: categoriesLoading, error: categoriesError } = useFindAllProductCategoriesQuery();
+    const { data: categoriesData, loading: categoriesLoading, error: categoriesError, refetch: refetchCategories } = useFindAllProductCategoriesQuery();
     const [createProduct, { loading: createProductLoading, error: createProductError }] = useCreateProductMutation();
-    const { refetch: refetchProducts } = useFindAllProductsQuery();
-    const [categories , setCategories] = useState([]);
+    const [categories , setCategories] = useState<ProductCategory[]>([]);
 
 
     const createProductValidationSchema = yup.object({
@@ -59,9 +59,7 @@ function Products() {
                         productInput: newProduct,
                     },
                 });
-
                 console.log(response.data);
-                await refetchProducts();
                 navigate("/");
             } catch (error) {
                 console.error(error);
@@ -70,8 +68,16 @@ function Products() {
     });
 
     useEffect(() => {
-        setCategories(categoriesData?.findAllProductCategories || []);
+        if(categoriesData){
+            // @ts-ignore
+            setCategories(categoriesData.findAllProductCategories);
+        }
     }, [categoriesData]);
+
+    useEffect(() => {
+        // @ts-ignore
+        refetchCategories();
+    }, [refetchCategories]);
 
     if (categoriesLoading) {
         return <Loading />;
@@ -79,6 +85,10 @@ function Products() {
 
     if (categoriesError) {
         return <p>Error retrieving categories</p>; // Handle the error case appropriately
+    }
+
+    if (categories.length === 0) {
+        return <p>No categories found.</p>;
     }
 
     return (
@@ -92,9 +102,6 @@ function Products() {
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
-                       {/* <InputLabel id="productCategoryLabel" shrink>
-                            Product Category
-                        </InputLabel>*/}
                         <Select
                             fullWidth
                             id="productCategoryId"
@@ -103,7 +110,6 @@ function Products() {
                             value={formik.values.productCategoryId}
                             onChange={formik.handleChange}
                             error={formik.touched.productCategoryId && Boolean(formik.errors.productCategoryId)}
-                           /* helperText={formik.touched.productCategoryId && formik.errors.productCategoryId}*/
                             displayEmpty
                             sx={{ textAlign: "left" }}
                         >
@@ -116,7 +122,7 @@ function Products() {
                                 </MenuItem>
                             ))}
                         </Select>
-                        <Link sx={{ textAlign: "left" }} to="/category">Create a new Category</Link>
+                        <Link to="/category">Create a new Category</Link>
                     </Grid>
                     <Grid item xs={12}>
                         <TextField

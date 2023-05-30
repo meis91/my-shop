@@ -28,3 +28,27 @@ query findAllProducts{
         createdAt
     }
 }
+
+query findProduct($id: ID!){
+    findProduct(id: $id){
+        id
+        name
+        description
+        price
+        discountedPrice
+        discount {
+            id
+            name
+            percentage
+        }
+        productCategory{
+            id
+            name
+        }
+        productInventory{
+            id
+            quantity
+        }
+        createdAt
+    }
+}

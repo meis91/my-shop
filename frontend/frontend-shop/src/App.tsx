@@ -7,6 +7,8 @@ import {Box, Container} from "@mui/material";
 import Categories from "./pages/Categories";
 import Products from "./pages/Products";
 import Brands from "./pages/Brands";
+import ProductDetails from "./pages/ProductDetails";
+import ProductEdit from "./pages/ProductEdit";
 
 
 
@@ -19,7 +21,7 @@ function App() {
             component="main"
             maxWidth="md"
             className="mui-container-fluid"
-            sx={{ minWidth: 600, maxWidth: 600 }}
+            sx={{ minWidth: 600, }}
         >
             <Box
                 sx={{
@@ -36,6 +38,8 @@ function App() {
                 <Routes>
                     <Route path="/" element={<Index/>}/>
                     <Route path="/product/*" element={<Products/>}/>
+                    <Route path="/product-details/:productId" element={<ProductDetails/>}/>
+                    <Route path="/product-details/edit/:productId" element={<ProductEdit/>}/>
                     <Route path="/category" element={<Categories/>}/>
                     <Route path="/discount" element={<Discounts/>}/>
                     <Route path="/brands/*" element={<Brands/>}/>

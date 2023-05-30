@@ -42,12 +42,20 @@ public class ProductController {
         return productService.findAllProducts();
     }
 
+    @QueryMapping
+    public Product findProduct(@Argument long id){
+        return productService.findProduct(id);
+    }
+
     @MutationMapping
     public Product setProductDiscount(@Argument long productId , @Argument long discountId) throws Exception {
         return productService.setProductDiscount(productId, discountId);
     }
 
-
+    @MutationMapping
+    public long deleteProduct(@Argument long productId) {
+        return productService.deleteProduct(productId);
+    }
 }
 
 
