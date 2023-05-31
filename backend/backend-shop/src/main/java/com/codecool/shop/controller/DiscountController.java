@@ -16,4 +16,5 @@ public class DiscountController {
     public Discount createDiscount(@Argument String name, @Argument int percentage){
         return discountService.createDiscount(name, percentage);
     }
+
 }

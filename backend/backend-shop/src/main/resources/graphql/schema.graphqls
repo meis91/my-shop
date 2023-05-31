@@ -1,0 +1,75 @@
+scalar BigDecimal
+
+type Query {
+    findAllProducts: [Product]!
+    findProduct(id: ID!): Product
+
+    findAllCategories: [Category]!
+
+    findAllBrands: [Brand]!
+
+    findAllDiscounts: [Discount]!
+
+}
+
+type Mutation {
+    createProduct(productInput: ProductInput!): Product
+    deleteProduct(productId: ID!): ID
+    updateProduct(productId: ID!, productInput: ProductInput!): Product
+
+    createBrand(name: String!): Brand
+
+    createCategory(name: String!): Category
+    deleteCategory(id: ID!): ID
+
+    createDiscount(name: String, percentage: Int): Discount
+}
+
+
+type Inventory {
+    id: ID!
+    quantity: Int!
+}
+
+type Product {
+    id: ID!
+    name: String!
+    brand: Brand!
+    description: String!
+    price: BigDecimal!
+    discount: Discount
+    discountedPrice: BigDecimal
+    category: Category!
+    inventory: Inventory!
+}
+
+
+type Category {
+    id: ID!
+    name: String!
+}
+
+type Discount {
+    id: ID!
+    name: String!
+    percentage: Int!
+}
+
+type Brand {
+    id: ID!
+    name: String!
+}
+
+input ProductInput {
+    categoryId: ID!
+    brandId: ID!
+    name: String!
+    description: String!
+    price: BigDecimal!
+    quantity: Int!
+}
+
+input DiscountInput {
+    name: String!
+    percentage: Int!
+}

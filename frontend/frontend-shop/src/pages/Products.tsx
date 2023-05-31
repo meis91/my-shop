@@ -1,3 +1,4 @@
+/*
 import React, {useEffect, useState} from 'react';
 import {Button, Grid, InputLabel, MenuItem, Select, TextField, Typography} from "@mui/material";
 import {
@@ -10,6 +11,7 @@ import {useFormik} from "formik";
 import {Link, useNavigate} from "react-router-dom";
 import * as yup from 'yup';
 import Loading from "../components/Loading";
+import TextInputField from "../components/TextInputField";
 
 function Products() {
     const navigate = useNavigate();
@@ -39,6 +41,7 @@ function Products() {
     const formik = useFormik({
         initialValues: {
             name: "",
+            brandId: "",
             description: "",
             price: "",
             productCategoryId: "",
@@ -105,7 +108,6 @@ function Products() {
                         <Select
                             fullWidth
                             id="productCategoryId"
-                            /*labelId="productCategoryLabel"*/
                             name="productCategoryId"
                             value={formik.values.productCategoryId}
                             onChange={formik.handleChange}
@@ -187,4 +189,4 @@ function Products() {
     );
 }
 
-export default Products;
+export default Products;*/

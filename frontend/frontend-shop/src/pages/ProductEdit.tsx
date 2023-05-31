@@ -1,3 +1,4 @@
+/*
 import React, {useEffect, useState} from 'react';
 import {Link, useLocation, useParams} from "react-router-dom";
 import {ProductId} from "../types";
@@ -124,4 +125,4 @@ function ProductEdit() {
         );
     }
 }
-export default ProductEdit;
+export default ProductEdit;*/

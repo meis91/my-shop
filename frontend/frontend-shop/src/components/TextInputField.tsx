@@ -2,29 +2,23 @@ import React from 'react';
 import {TextField} from "@mui/material";
 import {FormikProps} from "formik";
 
-
-interface MyFormValues {
-    name: string;
+type TextInputProps = {
+    formik: FormikProps<any>
+    name: string
 }
-interface MyFormProps extends FormikProps<MyFormValues> {
-    error: (field: string) => string | undefined;
-    helper: (field: string) => string | undefined;
-}
-
-function TextInputField({name, handleInput}:{
-    name:string, handleInput:Function
-}) {
-    // @ts-ignore
+function TextInputField({formik, name}: TextInputProps ){
+    
     return (
         <>
             <TextField
-                name={name}
                 margin="normal"
-                onChange={handleInput}
+                fullWidth
+                id={name}
                 label={capitalizeFirstLetter(name)}
-                id="outlined-start"
-                placeholder={capitalizeFirstLetter(name)}
-                sx={{ width:"100%" }}
+                {...formik.getFieldProps(name)}
+                error={formik.touched[name] && Boolean(formik.errors[name])}
+                // @ts-ignore
+                helperText={formik.touched[name] && formik.errors[name]}
             />
         </>
     );

@@ -1,9 +1,13 @@
 package com.codecool.shop.logic;
 
+import com.codecool.shop.controller.input.ProductInput;
+import com.codecool.shop.logic.exeptions.CategoryNotFoundException;
 import com.codecool.shop.logic.exeptions.DiscountNotFoundException;
 import com.codecool.shop.logic.exeptions.ProductNotFoundException;
 import com.codecool.shop.logic.util.DiscountCalculation;
+import com.codecool.shop.persistance.entity.Category;
 import com.codecool.shop.persistance.entity.Discount;
+import com.codecool.shop.persistance.entity.Inventory;
 import com.codecool.shop.persistance.entity.Product;
 import com.codecool.shop.persistance.repositiory.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,9 +22,20 @@ import java.util.Optional;
 public class ProductService {
     private final ProductRepository productRepository;
     private final DiscountService discountService;
+    private final CategoryService categoryService;
 
 
-    public Product create(Product product){
+    public Product create(ProductInput productInput){
+        Product product = productInput.getProductEntity();
+        Inventory inventory = productInput.getProductInventoryEntity();
+        product.setInventory(inventory);
+        long categoryId = productInput.getCategoryId();
+        Optional<Category> productCategory = categoryService.findById(categoryId);
+        if(productCategory.isPresent()){
+            product.setCategory(productCategory.get());
+        } else {
+            throw new CategoryNotFoundException(categoryId);
+        }
 
         return productRepository.save(product);
     }

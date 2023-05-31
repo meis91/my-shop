@@ -2,14 +2,14 @@ import React from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate} from "react-router-dom";
-import {useCreateProductCategoryMutation, useFindAllProductCategoriesQuery} from "../__generated__/graphql";
+import {useCreateCategoryMutation} from "../__generated__/graphql";
 import { Grid, Typography, TextField, Button} from "@mui/material";
 import Loading from "../components/Loading";
 
 
 const Categories = () => {
     const navigate = useNavigate();
-    const [createProductCategory, { loading, error, data }] = useCreateProductCategoryMutation();
+    const [createProductCategory, { loading, error, data }] = useCreateCategoryMutation();
 
     const createCategoryValidationSchema = yup.object({
         name: yup.string().required("Category Name is required!"),

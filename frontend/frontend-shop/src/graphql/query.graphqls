@@ -1,9 +1,17 @@
-query findAllProductCategories{
-    findAllProductCategories{
+query findAllCategories{
+    findAllCategories{
         id
         name
     }
 }
+
+query findAllBrands{
+    findAllBrands{
+        id
+        name
+    }
+}
+
 
 query findAllProducts{
     findAllProducts{
@@ -17,15 +25,19 @@ query findAllProducts{
             name
             percentage
         }
-        productCategory{
+        category{
             id
             name
         }
-        productInventory{
+        inventory{
             id
             quantity
         }
-        createdAt
+        brand {
+            id
+            name
+        }
+
     }
 }
 
@@ -41,14 +53,17 @@ query findProduct($id: ID!){
             name
             percentage
         }
-        productCategory{
+        category{
             id
             name
         }
-        productInventory{
+        inventory{
             id
             quantity
         }
-        createdAt
+        brand {
+            id
+            name
+        }
     }
 }

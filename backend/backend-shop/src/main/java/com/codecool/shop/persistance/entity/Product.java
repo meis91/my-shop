@@ -17,18 +17,14 @@ public class Product {
     private String name;
     @Column(columnDefinition="TEXT")
     private String description;
+    @Enumerated(EnumType.ORDINAL)
+    private StatusType statusType;
     private BigDecimal price;
     private BigDecimal discountedPrice;
     @ManyToOne
     private Discount discount;
     @ManyToOne
-    private ProductCategory productCategory;
+    private Category category;
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    private ProductInventory productInventory;
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime createdAt;
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime modifiedAt;
-    @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime deletedAt;
+    private Inventory inventory;
 }

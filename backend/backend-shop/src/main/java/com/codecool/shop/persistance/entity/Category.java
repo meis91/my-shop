@@ -5,21 +5,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @NoArgsConstructor
 @Getter
 @Setter
-public class Discount {
+public class Category {
     @Id
     @GeneratedValue
     private long id;
     private String name;
-    private int percentage;
+    @ManyToMany
+    private Set<Product> products;
 
-    public Discount(String name, int percentage) {
+    public Category(String name) {
         this.name = name;
-        this.percentage = percentage;
     }
+
 }

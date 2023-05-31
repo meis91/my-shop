@@ -14,15 +14,25 @@ export type Scalars = {
   Int: number;
   Float: number;
   BigDecimal: any;
-  LocalDateTime: any;
+};
+
+export type Brand = {
+  __typename?: 'Brand';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type Category = {
+  __typename?: 'Category';
+  id: Scalars['ID'];
+  name: Scalars['String'];
 };
 
 export type Discount = {
   __typename?: 'Discount';
-  createdAt?: Maybe<Scalars['LocalDateTime']>;
   id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
-  percentage?: Maybe<Scalars['Int']>;
+  name: Scalars['String'];
+  percentage: Scalars['Int'];
 };
 
 export type DiscountInput = {
@@ -30,14 +40,31 @@ export type DiscountInput = {
   percentage: Scalars['Int'];
 };
 
+export type Inventory = {
+  __typename?: 'Inventory';
+  id: Scalars['ID'];
+  quantity: Scalars['Int'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createBrand?: Maybe<Brand>;
+  createCategory?: Maybe<Category>;
   createDiscount?: Maybe<Discount>;
   createProduct?: Maybe<Product>;
-  createProductCategory?: Maybe<ProductCategory>;
+  deleteCategory?: Maybe<Scalars['ID']>;
   deleteProduct?: Maybe<Scalars['ID']>;
-  deleteProductCategory?: Maybe<Scalars['ID']>;
-  setProductDiscount?: Maybe<Product>;
+  updateProduct?: Maybe<Product>;
+};
+
+
+export type MutationCreateBrandArgs = {
+  name: Scalars['String'];
+};
+
+
+export type MutationCreateCategoryArgs = {
+  name: Scalars['String'];
 };
 
 
@@ -48,12 +75,12 @@ export type MutationCreateDiscountArgs = {
 
 
 export type MutationCreateProductArgs = {
-  productInput?: InputMaybe<ProductInput>;
+  productInput: ProductInput;
 };
 
 
-export type MutationCreateProductCategoryArgs = {
-  name?: InputMaybe<Scalars['String']>;
+export type MutationDeleteCategoryArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -62,55 +89,39 @@ export type MutationDeleteProductArgs = {
 };
 
 
-export type MutationDeleteProductCategoryArgs = {
-  id: Scalars['ID'];
-};
-
-
-export type MutationSetProductDiscountArgs = {
-  discountId?: InputMaybe<Scalars['ID']>;
+export type MutationUpdateProductArgs = {
   productId: Scalars['ID'];
+  productInput: ProductInput;
 };
 
 export type Product = {
   __typename?: 'Product';
-  createdAt?: Maybe<Scalars['LocalDateTime']>;
-  description?: Maybe<Scalars['String']>;
+  brand: Brand;
+  category: Category;
+  description: Scalars['String'];
   discount?: Maybe<Discount>;
   discountedPrice?: Maybe<Scalars['BigDecimal']>;
   id: Scalars['ID'];
+  inventory: Inventory;
   name: Scalars['String'];
   price: Scalars['BigDecimal'];
-  productCategory: ProductCategory;
-  productInventory: ProductInventory;
-};
-
-export type ProductCategory = {
-  __typename?: 'ProductCategory';
-  createdAt?: Maybe<Scalars['LocalDateTime']>;
-  id: Scalars['ID'];
-  name?: Maybe<Scalars['String']>;
 };
 
 export type ProductInput = {
-  description?: InputMaybe<Scalars['String']>;
-  name?: InputMaybe<Scalars['String']>;
-  price?: InputMaybe<Scalars['BigDecimal']>;
-  productCategoryId?: InputMaybe<Scalars['ID']>;
-  quantity?: InputMaybe<Scalars['Int']>;
-};
-
-export type ProductInventory = {
-  __typename?: 'ProductInventory';
-  createdAt?: Maybe<Scalars['LocalDateTime']>;
-  id: Scalars['ID'];
-  quantity?: Maybe<Scalars['Int']>;
+  brandId: Scalars['ID'];
+  categoryId: Scalars['ID'];
+  description: Scalars['String'];
+  name: Scalars['String'];
+  price: Scalars['BigDecimal'];
+  quantity: Scalars['Int'];
 };
 
 export type Query = {
   __typename?: 'Query';
-  findAllProductCategories?: Maybe<Array<Maybe<ProductCategory>>>;
-  findAllProducts?: Maybe<Array<Maybe<Product>>>;
+  findAllBrands: Array<Maybe<Brand>>;
+  findAllCategories: Array<Maybe<Category>>;
+  findAllDiscounts: Array<Maybe<Discount>>;
+  findAllProducts: Array<Maybe<Product>>;
   findProduct?: Maybe<Product>;
 };
 
@@ -120,7 +131,7 @@ export type QueryFindProductArgs = {
 };
 
 export type CreateProductMutationVariables = Exact<{
-  productInput?: InputMaybe<ProductInput>;
+  productInput: ProductInput;
 }>;
 
 
@@ -133,12 +144,19 @@ export type DeleteProductMutationVariables = Exact<{
 
 export type DeleteProductMutation = { __typename?: 'Mutation', deleteProduct?: string | null };
 
-export type CreateProductCategoryMutationVariables = Exact<{
-  name?: InputMaybe<Scalars['String']>;
+export type CreateCategoryMutationVariables = Exact<{
+  name: Scalars['String'];
 }>;
 
 
-export type CreateProductCategoryMutation = { __typename?: 'Mutation', createProductCategory?: { __typename?: 'ProductCategory', id: string, name?: string | null } | null };
+export type CreateCategoryMutation = { __typename?: 'Mutation', createCategory?: { __typename?: 'Category', id: string, name: string } | null };
+
+export type CreateBrandMutationVariables = Exact<{
+  name: Scalars['String'];
+}>;
+
+
+export type CreateBrandMutation = { __typename?: 'Mutation', createBrand?: { __typename?: 'Brand', id: string, name: string } | null };
 
 export type CreateDiscountMutationVariables = Exact<{
   name?: InputMaybe<Scalars['String']>;
@@ -146,28 +164,33 @@ export type CreateDiscountMutationVariables = Exact<{
 }>;
 
 
-export type CreateDiscountMutation = { __typename?: 'Mutation', createDiscount?: { __typename?: 'Discount', id: string, name?: string | null, percentage?: number | null } | null };
+export type CreateDiscountMutation = { __typename?: 'Mutation', createDiscount?: { __typename?: 'Discount', id: string, name: string, percentage: number } | null };
 
-export type FindAllProductCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
+export type FindAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllProductCategoriesQuery = { __typename?: 'Query', findAllProductCategories?: Array<{ __typename?: 'ProductCategory', id: string, name?: string | null } | null> | null };
+export type FindAllCategoriesQuery = { __typename?: 'Query', findAllCategories: Array<{ __typename?: 'Category', id: string, name: string } | null> };
+
+export type FindAllBrandsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindAllBrandsQuery = { __typename?: 'Query', findAllBrands: Array<{ __typename?: 'Brand', id: string, name: string } | null> };
 
 export type FindAllProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllProductsQuery = { __typename?: 'Query', findAllProducts?: Array<{ __typename?: 'Product', id: string, name: string, description?: string | null, price: any, discountedPrice?: any | null, createdAt?: any | null, discount?: { __typename?: 'Discount', id: string, name?: string | null, percentage?: number | null } | null, productCategory: { __typename?: 'ProductCategory', id: string, name?: string | null }, productInventory: { __typename?: 'ProductInventory', id: string, quantity?: number | null } } | null> | null };
+export type FindAllProductsQuery = { __typename?: 'Query', findAllProducts: Array<{ __typename?: 'Product', id: string, name: string, description: string, price: any, discountedPrice?: any | null, discount?: { __typename?: 'Discount', id: string, name: string, percentage: number } | null, category: { __typename?: 'Category', id: string, name: string }, inventory: { __typename?: 'Inventory', id: string, quantity: number }, brand: { __typename?: 'Brand', id: string, name: string } } | null> };
 
 export type FindProductQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type FindProductQuery = { __typename?: 'Query', findProduct?: { __typename?: 'Product', id: string, name: string, description?: string | null, price: any, discountedPrice?: any | null, createdAt?: any | null, discount?: { __typename?: 'Discount', id: string, name?: string | null, percentage?: number | null } | null, productCategory: { __typename?: 'ProductCategory', id: string, name?: string | null }, productInventory: { __typename?: 'ProductInventory', id: string, quantity?: number | null } } | null };
+export type FindProductQuery = { __typename?: 'Query', findProduct?: { __typename?: 'Product', id: string, name: string, description: string, price: any, discountedPrice?: any | null, discount?: { __typename?: 'Discount', id: string, name: string, percentage: number } | null, category: { __typename?: 'Category', id: string, name: string }, inventory: { __typename?: 'Inventory', id: string, quantity: number }, brand: { __typename?: 'Brand', id: string, name: string } } | null };
 
 
 export const CreateProductDocument = gql`
-    mutation createProduct($productInput: ProductInput) {
+    mutation createProduct($productInput: ProductInput!) {
   createProduct(productInput: $productInput) {
     id
     name
@@ -231,40 +254,74 @@ export function useDeleteProductMutation(baseOptions?: Apollo.MutationHookOption
 export type DeleteProductMutationHookResult = ReturnType<typeof useDeleteProductMutation>;
 export type DeleteProductMutationResult = Apollo.MutationResult<DeleteProductMutation>;
 export type DeleteProductMutationOptions = Apollo.BaseMutationOptions<DeleteProductMutation, DeleteProductMutationVariables>;
-export const CreateProductCategoryDocument = gql`
-    mutation createProductCategory($name: String) {
-  createProductCategory(name: $name) {
+export const CreateCategoryDocument = gql`
+    mutation createCategory($name: String!) {
+  createCategory(name: $name) {
     id
     name
   }
 }
     `;
-export type CreateProductCategoryMutationFn = Apollo.MutationFunction<CreateProductCategoryMutation, CreateProductCategoryMutationVariables>;
+export type CreateCategoryMutationFn = Apollo.MutationFunction<CreateCategoryMutation, CreateCategoryMutationVariables>;
 
 /**
- * __useCreateProductCategoryMutation__
+ * __useCreateCategoryMutation__
  *
- * To run a mutation, you first call `useCreateProductCategoryMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateProductCategoryMutation` returns a tuple that includes:
+ * To run a mutation, you first call `useCreateCategoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateCategoryMutation` returns a tuple that includes:
  * - A mutate function that you can call at any time to execute the mutation
  * - An object with fields that represent the current status of the mutation's execution
  *
  * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
  *
  * @example
- * const [createProductCategoryMutation, { data, loading, error }] = useCreateProductCategoryMutation({
+ * const [createCategoryMutation, { data, loading, error }] = useCreateCategoryMutation({
  *   variables: {
  *      name: // value for 'name'
  *   },
  * });
  */
-export function useCreateProductCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CreateProductCategoryMutation, CreateProductCategoryMutationVariables>) {
+export function useCreateCategoryMutation(baseOptions?: Apollo.MutationHookOptions<CreateCategoryMutation, CreateCategoryMutationVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<CreateProductCategoryMutation, CreateProductCategoryMutationVariables>(CreateProductCategoryDocument, options);
+        return Apollo.useMutation<CreateCategoryMutation, CreateCategoryMutationVariables>(CreateCategoryDocument, options);
       }
-export type CreateProductCategoryMutationHookResult = ReturnType<typeof useCreateProductCategoryMutation>;
-export type CreateProductCategoryMutationResult = Apollo.MutationResult<CreateProductCategoryMutation>;
-export type CreateProductCategoryMutationOptions = Apollo.BaseMutationOptions<CreateProductCategoryMutation, CreateProductCategoryMutationVariables>;
+export type CreateCategoryMutationHookResult = ReturnType<typeof useCreateCategoryMutation>;
+export type CreateCategoryMutationResult = Apollo.MutationResult<CreateCategoryMutation>;
+export type CreateCategoryMutationOptions = Apollo.BaseMutationOptions<CreateCategoryMutation, CreateCategoryMutationVariables>;
+export const CreateBrandDocument = gql`
+    mutation createBrand($name: String!) {
+  createBrand(name: $name) {
+    id
+    name
+  }
+}
+    `;
+export type CreateBrandMutationFn = Apollo.MutationFunction<CreateBrandMutation, CreateBrandMutationVariables>;
+
+/**
+ * __useCreateBrandMutation__
+ *
+ * To run a mutation, you first call `useCreateBrandMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateBrandMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createBrandMutation, { data, loading, error }] = useCreateBrandMutation({
+ *   variables: {
+ *      name: // value for 'name'
+ *   },
+ * });
+ */
+export function useCreateBrandMutation(baseOptions?: Apollo.MutationHookOptions<CreateBrandMutation, CreateBrandMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateBrandMutation, CreateBrandMutationVariables>(CreateBrandDocument, options);
+      }
+export type CreateBrandMutationHookResult = ReturnType<typeof useCreateBrandMutation>;
+export type CreateBrandMutationResult = Apollo.MutationResult<CreateBrandMutation>;
+export type CreateBrandMutationOptions = Apollo.BaseMutationOptions<CreateBrandMutation, CreateBrandMutationVariables>;
 export const CreateDiscountDocument = gql`
     mutation createDiscount($name: String, $percentage: Int) {
   createDiscount(name: $name, percentage: $percentage) {
@@ -301,9 +358,9 @@ export function useCreateDiscountMutation(baseOptions?: Apollo.MutationHookOptio
 export type CreateDiscountMutationHookResult = ReturnType<typeof useCreateDiscountMutation>;
 export type CreateDiscountMutationResult = Apollo.MutationResult<CreateDiscountMutation>;
 export type CreateDiscountMutationOptions = Apollo.BaseMutationOptions<CreateDiscountMutation, CreateDiscountMutationVariables>;
-export const FindAllProductCategoriesDocument = gql`
-    query findAllProductCategories {
-  findAllProductCategories {
+export const FindAllCategoriesDocument = gql`
+    query findAllCategories {
+  findAllCategories {
     id
     name
   }
@@ -311,31 +368,66 @@ export const FindAllProductCategoriesDocument = gql`
     `;
 
 /**
- * __useFindAllProductCategoriesQuery__
+ * __useFindAllCategoriesQuery__
  *
- * To run a query within a React component, call `useFindAllProductCategoriesQuery` and pass it any options that fit your needs.
- * When your component renders, `useFindAllProductCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useFindAllCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindAllCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useFindAllProductCategoriesQuery({
+ * const { data, loading, error } = useFindAllCategoriesQuery({
  *   variables: {
  *   },
  * });
  */
-export function useFindAllProductCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<FindAllProductCategoriesQuery, FindAllProductCategoriesQueryVariables>) {
+export function useFindAllCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<FindAllCategoriesQuery, FindAllCategoriesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<FindAllProductCategoriesQuery, FindAllProductCategoriesQueryVariables>(FindAllProductCategoriesDocument, options);
+        return Apollo.useQuery<FindAllCategoriesQuery, FindAllCategoriesQueryVariables>(FindAllCategoriesDocument, options);
       }
-export function useFindAllProductCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllProductCategoriesQuery, FindAllProductCategoriesQueryVariables>) {
+export function useFindAllCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllCategoriesQuery, FindAllCategoriesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<FindAllProductCategoriesQuery, FindAllProductCategoriesQueryVariables>(FindAllProductCategoriesDocument, options);
+          return Apollo.useLazyQuery<FindAllCategoriesQuery, FindAllCategoriesQueryVariables>(FindAllCategoriesDocument, options);
         }
-export type FindAllProductCategoriesQueryHookResult = ReturnType<typeof useFindAllProductCategoriesQuery>;
-export type FindAllProductCategoriesLazyQueryHookResult = ReturnType<typeof useFindAllProductCategoriesLazyQuery>;
-export type FindAllProductCategoriesQueryResult = Apollo.QueryResult<FindAllProductCategoriesQuery, FindAllProductCategoriesQueryVariables>;
+export type FindAllCategoriesQueryHookResult = ReturnType<typeof useFindAllCategoriesQuery>;
+export type FindAllCategoriesLazyQueryHookResult = ReturnType<typeof useFindAllCategoriesLazyQuery>;
+export type FindAllCategoriesQueryResult = Apollo.QueryResult<FindAllCategoriesQuery, FindAllCategoriesQueryVariables>;
+export const FindAllBrandsDocument = gql`
+    query findAllBrands {
+  findAllBrands {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useFindAllBrandsQuery__
+ *
+ * To run a query within a React component, call `useFindAllBrandsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindAllBrandsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindAllBrandsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindAllBrandsQuery(baseOptions?: Apollo.QueryHookOptions<FindAllBrandsQuery, FindAllBrandsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindAllBrandsQuery, FindAllBrandsQueryVariables>(FindAllBrandsDocument, options);
+      }
+export function useFindAllBrandsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllBrandsQuery, FindAllBrandsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindAllBrandsQuery, FindAllBrandsQueryVariables>(FindAllBrandsDocument, options);
+        }
+export type FindAllBrandsQueryHookResult = ReturnType<typeof useFindAllBrandsQuery>;
+export type FindAllBrandsLazyQueryHookResult = ReturnType<typeof useFindAllBrandsLazyQuery>;
+export type FindAllBrandsQueryResult = Apollo.QueryResult<FindAllBrandsQuery, FindAllBrandsQueryVariables>;
 export const FindAllProductsDocument = gql`
     query findAllProducts {
   findAllProducts {
@@ -349,15 +441,18 @@ export const FindAllProductsDocument = gql`
       name
       percentage
     }
-    productCategory {
+    category {
       id
       name
     }
-    productInventory {
+    inventory {
       id
       quantity
     }
-    createdAt
+    brand {
+      id
+      name
+    }
   }
 }
     `;
@@ -401,15 +496,18 @@ export const FindProductDocument = gql`
       name
       percentage
     }
-    productCategory {
+    category {
       id
       name
     }
-    productInventory {
+    inventory {
       id
       quantity
     }
-    createdAt
+    brand {
+      id
+      name
+    }
   }
 }
     `;

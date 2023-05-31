@@ -14,8 +14,6 @@ public class DiscountService {
     private final DiscountRepository discountRepository;
 
     public Discount createDiscount(String name, int percentage){
-        System.out.println("name = " + name);
-        System.out.println("percentage = " + percentage);
         Discount discount = new Discount(name, percentage);
         return discountRepository.save(discount);
     }

@@ -1,4 +1,4 @@
-mutation createProduct($productInput: ProductInput){
+mutation createProduct($productInput: ProductInput!){
     createProduct(productInput: $productInput){
         id
         name
@@ -9,10 +9,17 @@ mutation DeleteProduct($productId: ID!) {
     deleteProduct(productId: $productId)
 }
 
-mutation createProductCategory($name: String){
-       createProductCategory(name: $name){
+mutation createCategory($name: String!){
+       createCategory(name: $name){
            id
            name
+    }
+}
+
+mutation createBrand($name: String!){
+    createBrand(name: $name){
+        id
+        name
     }
 }
 
