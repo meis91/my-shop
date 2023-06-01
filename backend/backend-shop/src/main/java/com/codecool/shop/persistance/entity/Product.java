@@ -25,6 +25,8 @@ public class Product {
     private Discount discount;
     @ManyToOne
     private Category category;
+    @ManyToOne
+    private Brand brand;
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private Inventory inventory;
 }

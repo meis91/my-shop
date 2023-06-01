@@ -34,28 +34,8 @@ function Index() {
     }
 
     return (
-        <>products
+        <>
             {loading && <Loading/>}
-            <Grid container spacing={2} rowSpacing={2}>
-                <Grid item xs={12}>
-                    <Typography component="h2" variant="h5">
-                        Index
-                    </Typography>
-                </Grid>
-                <Grid item xs={12}>
-                    <Link to="/product">Products</Link>
-                </Grid>
-                <Grid item xs={12}>
-                    <Link to="/category">Categories</Link>
-                </Grid>
-                <Grid item xs={12}>
-                    <Link to="/discount">Discounts</Link>
-                </Grid>
-                <Grid item xs={12}>
-                    <Link to="/brands">Brands</Link>
-                </Grid>
-            </Grid>
-
             <Grid container spacing={2}>
                 {products.map((product: Product) => (
                     <Grid item key={product.id} xs={12} sm={6} md={4} lg={3}>
@@ -70,7 +50,7 @@ function Index() {
                                 {product.description}
                             </Typography>
                             <Typography variant="body2" style={styles.productCategory}>
-                                Category: {product.productCategory.name}
+                                Category: {product.category.name}
                             </Typography>
                             <Typography variant="body2" style={styles.productPrice}>
                                 Price: {product.price}€

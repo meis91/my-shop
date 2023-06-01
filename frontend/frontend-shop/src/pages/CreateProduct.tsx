@@ -15,6 +15,7 @@ import * as yup from "yup";
 import {Link, useNavigate} from "react-router-dom";
 import {productValidationSchema} from "../schemas/yupSchemas";
 import SelectField from "../components/SelectField";
+import FormikSubmitButton from "../components/FormikSubmitButton";
 
 type CreateProductProps = {
     categoryId: string
@@ -63,15 +64,12 @@ function CreateProduct() {
         }
     });
 
-    /*useEffect(() => {
-        if(categoriesData){
-            // @ts-ignore
-            setCategories(categoriesData.findAllProductCategories);
-        }
-    }, [categoriesData]);*/
 
     useEffect(() => {
+
+        // @ts-ignore
         refetchCategories();
+        // @ts-ignore
         refetchBrands();
     }, [refetchCategories, refetchBrands]);
     return (
@@ -124,14 +122,7 @@ function CreateProduct() {
                         />
                     </Grid>
                     <Grid item xs={12} sx={{display: "flex", justifyContent: "center"}}>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{mt: 3, mb: 2, width: "50%"}}
-                        >
-                            Submit
-                        </Button>
+                        <FormikSubmitButton isSubmitting={formik.isSubmitting}/>
                     </Grid>
                 </Grid>
             </form>

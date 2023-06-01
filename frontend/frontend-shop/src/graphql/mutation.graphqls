@@ -2,6 +2,26 @@ mutation createProduct($productInput: ProductInput!){
     createProduct(productInput: $productInput){
         id
         name
+        description
+        price
+        discountedPrice
+        discount {
+            id
+            name
+            percentage
+        }
+        category{
+            id
+            name
+        }
+        inventory{
+            id
+            quantity
+        }
+        brand {
+            id
+            name
+        }
     }
 }
 

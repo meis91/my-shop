@@ -135,7 +135,7 @@ export type CreateProductMutationVariables = Exact<{
 }>;
 
 
-export type CreateProductMutation = { __typename?: 'Mutation', createProduct?: { __typename?: 'Product', id: string, name: string } | null };
+export type CreateProductMutation = { __typename?: 'Mutation', createProduct?: { __typename?: 'Product', id: string, name: string, description: string, price: any, discountedPrice?: any | null, discount?: { __typename?: 'Discount', id: string, name: string, percentage: number } | null, category: { __typename?: 'Category', id: string, name: string }, inventory: { __typename?: 'Inventory', id: string, quantity: number }, brand: { __typename?: 'Brand', id: string, name: string } } | null };
 
 export type DeleteProductMutationVariables = Exact<{
   productId: Scalars['ID'];
@@ -194,6 +194,26 @@ export const CreateProductDocument = gql`
   createProduct(productInput: $productInput) {
     id
     name
+    description
+    price
+    discountedPrice
+    discount {
+      id
+      name
+      percentage
+    }
+    category {
+      id
+      name
+    }
+    inventory {
+      id
+      quantity
+    }
+    brand {
+      id
+      name
+    }
   }
 }
     `;

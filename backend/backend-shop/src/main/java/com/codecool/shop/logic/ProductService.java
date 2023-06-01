@@ -5,10 +5,7 @@ import com.codecool.shop.logic.exeptions.CategoryNotFoundException;
 import com.codecool.shop.logic.exeptions.DiscountNotFoundException;
 import com.codecool.shop.logic.exeptions.ProductNotFoundException;
 import com.codecool.shop.logic.util.DiscountCalculation;
-import com.codecool.shop.persistance.entity.Category;
-import com.codecool.shop.persistance.entity.Discount;
-import com.codecool.shop.persistance.entity.Inventory;
-import com.codecool.shop.persistance.entity.Product;
+import com.codecool.shop.persistance.entity.*;
 import com.codecool.shop.persistance.repositiory.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +20,7 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final DiscountService discountService;
     private final CategoryService categoryService;
+    private final BrandService brandService;
 
 
     public Product create(ProductInput productInput){
@@ -31,6 +29,9 @@ public class ProductService {
         product.setInventory(inventory);
         long categoryId = productInput.getCategoryId();
         Optional<Category> productCategory = categoryService.findById(categoryId);
+        long brandId = productInput.getBrandId();
+        Brand brand = brandService.findById(brandId);
+        product.setBrand(brand);
         if(productCategory.isPresent()){
             product.setCategory(productCategory.get());
         } else {

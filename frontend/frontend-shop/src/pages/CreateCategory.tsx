@@ -1,19 +1,19 @@
 import React from "react";
 import { useFormik } from "formik";
-import * as yup from "yup";
 import { useNavigate} from "react-router-dom";
 import {useCreateCategoryMutation} from "../__generated__/graphql";
-import { Grid, Typography, TextField, Button} from "@mui/material";
+import { Grid, Typography} from "@mui/material";
 import Loading from "../components/Loading";
+import TextInputField from "../components/TextInputField";
+import FormikSubmitButton from "../components/FormikSubmitButton";
+import {createCategoryValidationSchema} from "../schemas/yupSchemas";
 
 
-const Categories = () => {
+const CreateCategory = () => {
     const navigate = useNavigate();
-    const [createProductCategory, { loading, error, data }] = useCreateCategoryMutation();
+    const [createCategory, { loading, error, data }] = useCreateCategoryMutation();
 
-    const createCategoryValidationSchema = yup.object({
-        name: yup.string().required("Category Name is required!"),
-    });
+
 
     const formik = useFormik({
         initialValues: {
@@ -22,7 +22,7 @@ const Categories = () => {
         validationSchema: createCategoryValidationSchema,
         onSubmit: async (values) => {
             try {
-                const response = await createProductCategory({
+                const response = await createCategory({
                     variables: {
                         name: values.name,
                     },
@@ -46,27 +46,10 @@ const Categories = () => {
                         </Typography>
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField
-                            margin="normal"
-                            fullWidth
-                            id="name"
-                            label="Name"
-                            autoFocus
-                            {...formik.getFieldProps("name")}
-                            error={formik.touched.name && Boolean(formik.errors.name)}
-                            helperText={formik.touched.name && formik.errors.name}
-                        />
+                        <TextInputField formik={formik} name="name"/>
                     </Grid>
                     <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
-                        <Button
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2, width: "50%" }}
-                            disabled={formik.isSubmitting || loading}
-                        >
-                            {formik.isSubmitting ? "Submitting..." : "Submit"}
-                        </Button>
+                        <FormikSubmitButton isSubmitting={formik.isSubmitting}/>
                     </Grid>
                 </Grid>
             </form>
@@ -75,4 +58,4 @@ const Categories = () => {
     );
 };
 
-export default Categories;
+export default CreateCategory;

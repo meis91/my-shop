@@ -23,3 +23,11 @@ export const productValidationSchema = yup.object({
         .min(1, "Quantity must be at least 1")
         .required("Please provide a Amount"),
 });
+
+export const createBrandValidationSchema = yup.object({
+    name: yup.string().required("Brand Name is required!"),
+});
+
+export const createCategoryValidationSchema = yup.object({
+    name: yup.string().required("Category Name is required!"),
+});
