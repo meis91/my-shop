@@ -5,37 +5,32 @@ import ListItemText from "@mui/material/ListItemText";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
-import {useNavigate} from "react-router-dom";
+import {capitalizeFirstLetter} from "../../util";
+import SideMenuEntityOperation from "./SideMenuEntityOperation";
 
 type SideMenuListItemProps = {
-    text: string
+    entity: string
+    closeSideMenu: () => void
 }
-function SideMenuListItem({text}: SideMenuListItemProps) {
+function SideMenuEntity({entity, closeSideMenu}: SideMenuListItemProps) {
     const [sublist, setSublist] = useState(false);
-    const navigate = useNavigate;
+
     const toggleSublist = () =>{setSublist(!sublist)}
 
     return (
-        <div key={text}>
+        <div key={entity}>
             <ListItem disablePadding>
                 <ListItemButton
                     onClick={toggleSublist}
                 >
-                    <ListItemText primary={text}/>
+                    <ListItemText primary={capitalizeFirstLetter(entity)}/>
                     <ArrowDropDownIcon/>
                 </ListItemButton>
             </ListItem>
             {sublist ?
                 <List>
-                    {["Create", "Update", "Delete"].map((textCUD, index) => (
-                        <div key={index + textCUD}>
-                            <ListItem disablePadding>
-                                <ListItemButton
-                                >
-                                    <ListItemText primary={textCUD + " " + text}/>
-                                </ListItemButton>
-                            </ListItem>
-                        </div>
+                    {["create", "update", "delete"].map((operation, index) => (
+                        <SideMenuEntityOperation entity={entity} operation={operation} closeSideMenu={closeSideMenu}/>
                     ))}
                 </List>
                 : null}
@@ -44,4 +39,4 @@ function SideMenuListItem({text}: SideMenuListItemProps) {
     );
 }
 
-export default SideMenuListItem;
+export default SideMenuEntity;

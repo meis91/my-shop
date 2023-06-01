@@ -4,8 +4,8 @@ import { useNavigate} from "react-router-dom";
 import {useCreateCategoryMutation} from "../__generated__/graphql";
 import { Grid, Typography} from "@mui/material";
 import Loading from "../components/Loading";
-import TextInputField from "../components/TextInputField";
-import FormikSubmitButton from "../components/FormikSubmitButton";
+import TextInputField from "../components/forms/TextInputField";
+import FormikSubmitButton from "../components/forms/FormikSubmitButton";
 import {createCategoryValidationSchema} from "../schemas/yupSchemas";
 
 
@@ -36,7 +36,7 @@ const CreateCategory = () => {
     });
 
     return (
-        <div style={{ maxWidth: "300px" }}>
+        <div style={{ maxWidth: "500px" }}>
             {loading && <Loading/>}
             <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2} rowSpacing={2}>

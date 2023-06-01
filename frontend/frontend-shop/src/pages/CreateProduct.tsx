@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 
 import { useFormik} from "formik";
-import TextInputField from "../components/TextInputField";
+import TextInputField from "../components/forms/TextInputField";
 import {
     ProductInput,
     useCreateProductMutation, useFindAllBrandsQuery, useFindAllCategoriesQuery,
@@ -14,8 +14,9 @@ import {
 import * as yup from "yup";
 import {Link, useNavigate} from "react-router-dom";
 import {productValidationSchema} from "../schemas/yupSchemas";
-import SelectField from "../components/SelectField";
-import FormikSubmitButton from "../components/FormikSubmitButton";
+import SelectField from "../components/forms/SelectField";
+import FormikSubmitButton from "../components/forms/FormikSubmitButton";
+import Loading from "../components/Loading";
 
 type CreateProductProps = {
     categoryId: string
@@ -73,7 +74,8 @@ function CreateProduct() {
         refetchBrands();
     }, [refetchCategories, refetchBrands]);
     return (
-        <>
+        <div style={{minWidth:"500px",  }}>
+            {loading && <Loading/>}
             <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2} rowSpacing={2}>
                     <Grid item xs={12}>
@@ -87,7 +89,9 @@ function CreateProduct() {
                             formik={formik}
                             fields={categoriesData ? categoriesData.findAllCategories : []}
                         />
-                        <Link to="/create-category">Click here to create a new Category</Link>
+                        <Link to="/create-category">
+                            Click here to create a new Category
+                        </Link>
                     </Grid>
                     <Grid item xs={12}>
                         <SelectField
@@ -95,7 +99,9 @@ function CreateProduct() {
                             formik={formik}
                             fields={brandsData ? brandsData.findAllBrands : []}
                         />
-                        <Link to="/create-brand">Click here to create a new Brand</Link>
+                        <Link to="/create-brand">
+                                Click here to create a new Brand
+                        </Link>
                     </Grid>
                     <Grid item xs={12}>
                         <TextInputField
@@ -128,7 +134,7 @@ function CreateProduct() {
             </form>
 
             <div>{JSON.stringify(formik.values)}</div>
-        </>
+        </div>
     );
 }
 

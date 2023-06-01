@@ -1,6 +1,7 @@
 import React from 'react';
 import {TextField} from "@mui/material";
 import {FormikProps} from "formik";
+import {capitalizeFirstLetter} from "../../util";
 
 type TextInputProps = {
     formik: FormikProps<any>
@@ -26,6 +27,3 @@ function TextInputField({formik, name}: TextInputProps ){
 
 export default TextInputField;
 
-function capitalizeFirstLetter(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}

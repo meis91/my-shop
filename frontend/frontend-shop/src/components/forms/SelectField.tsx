@@ -1,6 +1,7 @@
 import React from 'react';
 import {MenuItem, Select} from "@mui/material";
 import {FormikProps} from "formik";
+import {capitalizeFirstLetter} from "../../util";
 
 type SelectFieldProps = {
     formik: FormikProps<any>
@@ -34,7 +35,3 @@ function SelectField({formik, fields, name}: SelectFieldProps) {
 }
 
 export default SelectField;
-
-function capitalizeFirstLetter(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
