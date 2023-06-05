@@ -67,7 +67,6 @@ function CreateProduct() {
 
 
     useEffect(() => {
-
         // @ts-ignore
         refetchCategories();
         // @ts-ignore

@@ -1,6 +1,5 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
-    Product,
     useDeleteProductMutation,
     useFindProductQuery
 } from "../__generated__/graphql";
@@ -86,7 +85,7 @@ function ProductDetails() {
                         </Grid>
                         <Grid item xs={12} columnSpacing={8}>
                             <Button onClick={handleDelete} variant="outlined" color="error">Delete</Button>
-                            <Link to={`/product-details/edit/${productId}`}  state={product}>
+                            <Link to={`/edit-product/${productId}`}  state={product}>
                                 <Button variant="outlined">Edit</Button>
                             </Link>
                             <Link to="..">

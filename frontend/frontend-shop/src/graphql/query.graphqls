@@ -12,6 +12,13 @@ query findAllBrands{
     }
 }
 
+query findAllDiscounts{
+    findAllDiscounts{
+        id
+        name
+    }
+}
+
 
 query findAllProducts{
     findAllProducts{
@@ -28,10 +35,6 @@ query findAllProducts{
         category{
             id
             name
-        }
-        inventory{
-            id
-            quantity
         }
         brand {
             id

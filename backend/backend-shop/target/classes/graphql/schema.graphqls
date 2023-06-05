@@ -1,7 +1,8 @@
 scalar BigDecimal
 
 type Query {
-    findAllProducts: [Product]!
+    findAllProducts: [Product]
+    findAllProductsPaged(page: Int, size: Int): [Product]
     findProduct(id: ID!): Product
 
     findAllCategories: [Category]!

@@ -11,6 +11,8 @@ import CreateBrand from "./pages/CreateBrand";
 import CreateProduct from "./pages/CreateProduct";
 import AdminMenu from "./components/AdminMenu";
 import SideMenu from "./components/sideMenu/SideMenu";
+import ProductDetails from "./pages/ProductDetails";
+import EditProduct from "./pages/EditProduct";
 
 function App() {
     const [sideMenu, setSideMenu] = useState<boolean>(false);
@@ -47,6 +49,8 @@ function App() {
                         >
                             <Routes>
                                 <Route path="/" element={<Index/>}/>
+                                <Route path="/product-details/:productId" element={<ProductDetails/>}/>
+                                <Route path="/edit-product/:productId" element={<EditProduct/>}/>
                                 <Route path="/create-product" element={<CreateProduct/>}/>
                                 <Route path="/create-category" element={<CreateCategory/>}/>
                                 <Route path="/create-discount" element={<Discounts/>}/>

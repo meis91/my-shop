@@ -8,6 +8,8 @@ import com.codecool.shop.logic.util.DiscountCalculation;
 import com.codecool.shop.persistance.entity.*;
 import com.codecool.shop.persistance.repositiory.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -86,5 +88,15 @@ public class ProductService {
         } else {
             throw new ProductNotFoundException(productId);
         }
+    }
+
+    public Product edit(long productId, ProductInput productInput) {
+        Product product = findProduct(productId);
+        product.setName(productInput.getName());
+        return product;
+    }
+
+    public Page<Product> findAllProductsPaginated(PageRequest pageRequest) {
+        return productRepository.findAll(pageRequest);
     }
 }

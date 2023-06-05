@@ -14,6 +14,7 @@ public class ProductInput {
     private long categoryId;
     private long brandId;
     private int quantity;
+    private long discountId;
 
     public Product getProductEntity(){
         Product product = new Product();

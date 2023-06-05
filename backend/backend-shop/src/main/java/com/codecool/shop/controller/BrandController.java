@@ -10,7 +10,6 @@ import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequiredArgsConstructor
@@ -19,7 +18,7 @@ public class BrandController {
 
     @QueryMapping
     public List<Brand> findAllBrands(){
-        return brandService.findAllBrands();
+        return brandService.findAll();
     }
 
     @MutationMapping
@@ -27,9 +26,5 @@ public class BrandController {
         return brandService.createBrand(name);
     }
 
-    @PostConstruct
-    private void populate() {
-        createBrand("Apple");
-        createBrand("Dell");
-    }
+
 }

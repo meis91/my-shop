@@ -176,10 +176,15 @@ export type FindAllBrandsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type FindAllBrandsQuery = { __typename?: 'Query', findAllBrands: Array<{ __typename?: 'Brand', id: string, name: string } | null> };
 
+export type FindAllDiscountsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type FindAllDiscountsQuery = { __typename?: 'Query', findAllDiscounts: Array<{ __typename?: 'Discount', id: string, name: string } | null> };
+
 export type FindAllProductsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type FindAllProductsQuery = { __typename?: 'Query', findAllProducts: Array<{ __typename?: 'Product', id: string, name: string, description: string, price: any, discountedPrice?: any | null, discount?: { __typename?: 'Discount', id: string, name: string, percentage: number } | null, category: { __typename?: 'Category', id: string, name: string }, inventory: { __typename?: 'Inventory', id: string, quantity: number }, brand: { __typename?: 'Brand', id: string, name: string } } | null> };
+export type FindAllProductsQuery = { __typename?: 'Query', findAllProducts: Array<{ __typename?: 'Product', id: string, name: string, description: string, price: any, discountedPrice?: any | null, discount?: { __typename?: 'Discount', id: string, name: string, percentage: number } | null, category: { __typename?: 'Category', id: string, name: string }, brand: { __typename?: 'Brand', id: string, name: string } } | null> };
 
 export type FindProductQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -448,6 +453,41 @@ export function useFindAllBrandsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type FindAllBrandsQueryHookResult = ReturnType<typeof useFindAllBrandsQuery>;
 export type FindAllBrandsLazyQueryHookResult = ReturnType<typeof useFindAllBrandsLazyQuery>;
 export type FindAllBrandsQueryResult = Apollo.QueryResult<FindAllBrandsQuery, FindAllBrandsQueryVariables>;
+export const FindAllDiscountsDocument = gql`
+    query findAllDiscounts {
+  findAllDiscounts {
+    id
+    name
+  }
+}
+    `;
+
+/**
+ * __useFindAllDiscountsQuery__
+ *
+ * To run a query within a React component, call `useFindAllDiscountsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useFindAllDiscountsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useFindAllDiscountsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useFindAllDiscountsQuery(baseOptions?: Apollo.QueryHookOptions<FindAllDiscountsQuery, FindAllDiscountsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<FindAllDiscountsQuery, FindAllDiscountsQueryVariables>(FindAllDiscountsDocument, options);
+      }
+export function useFindAllDiscountsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<FindAllDiscountsQuery, FindAllDiscountsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<FindAllDiscountsQuery, FindAllDiscountsQueryVariables>(FindAllDiscountsDocument, options);
+        }
+export type FindAllDiscountsQueryHookResult = ReturnType<typeof useFindAllDiscountsQuery>;
+export type FindAllDiscountsLazyQueryHookResult = ReturnType<typeof useFindAllDiscountsLazyQuery>;
+export type FindAllDiscountsQueryResult = Apollo.QueryResult<FindAllDiscountsQuery, FindAllDiscountsQueryVariables>;
 export const FindAllProductsDocument = gql`
     query findAllProducts {
   findAllProducts {
@@ -464,10 +504,6 @@ export const FindAllProductsDocument = gql`
     category {
       id
       name
-    }
-    inventory {
-      id
-      quantity
     }
     brand {
       id

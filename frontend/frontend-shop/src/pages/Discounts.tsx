@@ -5,24 +5,11 @@ import {useFormik} from "formik";
 import {useNavigate} from "react-router-dom";
 import * as yup from 'yup';
 import Loading from "../components/Loading";
+import {createDiscountValidationSchema} from "../schemas/yupSchemas";
 
 function Discounts() {
     const navigate = useNavigate();
     const [createDiscount, {loading, error, data}] = useCreateDiscountMutation();
-
-    // @ts-ignore
-    const createDiscountValidationSchema = yup.object({
-        name: yup
-            .string()
-            .required("Discount Name is required!"),
-        percentage: yup
-            .number()
-            .typeError("Please enter a valid number")
-            .min(1, "The percentage must be between 1-70")
-            .max(70, "The percentage must be between 1-70")
-            .required("Percentage is required")
-    });
-
 
     const formik = useFormik({
         initialValues: {
@@ -40,7 +27,7 @@ function Discounts() {
                 });
 
                 console.log(response.data);
-                navigate("/");
+                navigate(-1);
             } catch (error) {
                 console.error(error);
             }

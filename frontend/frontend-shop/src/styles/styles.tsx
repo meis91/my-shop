@@ -28,10 +28,17 @@ productPrice: {
     fontSize: '14px',
     fontWeight: 'bold',
     marginBottom: '4px',
+
 },
 productDiscount: {
-    fontSize: '12px',
+    fontSize: '16px',
+    fontWeight: 'bold',
     color: '#f00',
     marginBottom: '4px',
 },
+productPriceLineThrough: {
+    fontSize: '14px',
+    marginBottom: '4px',
+    textDecoration: 'line-through',
+}
 };

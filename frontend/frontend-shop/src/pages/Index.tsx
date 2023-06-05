@@ -52,14 +52,25 @@ function Index() {
                             <Typography variant="body2" style={styles.productCategory}>
                                 Category: {product.category.name}
                             </Typography>
-                            <Typography variant="body2" style={styles.productPrice}>
-                                Price: {product.price}€
-                            </Typography>
-                            {product.discountedPrice && (
-                                <Typography variant="body2" style={styles.productDiscount}>
-                                    Discounted Price: {product.discountedPrice}
+                            {product.discountedPrice ?
+                                <div>
+                                    <Typography variant="body2" style={styles.productPriceLineThrough}>
+                                        Price: {product.price}€
+                                    </Typography>
+                                    <Typography variant="body2" style={styles.productDiscount}>
+                                        - {product.discount?.percentage}% OFF
+                                    </Typography>
+                                    <Typography variant="body1" style={styles.productDiscount}>
+                                       New Price : {product.discountedPrice}€
+                                    </Typography>
+                                    <Typography variant="body2">
+                                        {product.discount?.name}
+                                    </Typography>
+                                </div> :
+                                <Typography variant="body2" style={styles.productPrice}>
+                                    Price: {product.price}€
                                 </Typography>
-                            )}
+                            }
                             </Link>
                         </div>
                     </Grid>

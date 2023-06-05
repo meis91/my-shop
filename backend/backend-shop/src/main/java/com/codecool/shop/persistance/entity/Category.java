@@ -16,7 +16,7 @@ public class Category {
     @GeneratedValue
     private long id;
     private String name;
-    @ManyToMany
+    @OneToMany
     private Set<Product> products;
 
     public Category(String name) {

@@ -33,11 +33,6 @@ public class CategoryController {
     }
 
 
-    @PostConstruct
-    private void populate() {
-        createCategory("Laptop");
-        createCategory("Tablet");
-        createCategory("Monitor");
-    }
+
 
 }

@@ -5,6 +5,7 @@ import com.codecool.shop.persistance.repositiory.DiscountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -23,4 +24,7 @@ public class DiscountService {
     }
 
 
+    public List<Discount> findAll() {
+        return discountRepository.findAll();
+    }
 }

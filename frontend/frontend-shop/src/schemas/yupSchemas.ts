@@ -31,3 +31,15 @@ export const createBrandValidationSchema = yup.object({
 export const createCategoryValidationSchema = yup.object({
     name: yup.string().required("Category Name is required!"),
 });
+
+export const createDiscountValidationSchema = yup.object({
+    name: yup
+        .string()
+        .required("Discount Name is required!"),
+    percentage: yup
+        .number()
+        .typeError("Please enter a valid number")
+        .min(1, "The percentage must be between 1-70")
+        .max(70, "The percentage must be between 1-70")
+        .required("Percentage is required")
+});

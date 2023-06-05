@@ -1,6 +1,5 @@
 package com.codecool.shop.logic;
 
-import com.codecool.shop.controller.BrandController;
 import com.codecool.shop.logic.exeptions.BrandNotFoundException;
 import com.codecool.shop.persistance.entity.Brand;
 import com.codecool.shop.persistance.repositiory.BrandRepository;
@@ -16,7 +15,7 @@ import java.util.Optional;
 public class BrandService {
     private final BrandRepository brandRepository;
 
-    public List<Brand> findAllBrands() {
+    public List<Brand> findAll() {
         return brandRepository.findAll();
     }
 

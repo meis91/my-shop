@@ -29,7 +29,7 @@ function SideMenuEntity({entity, closeSideMenu}: SideMenuListItemProps) {
             </ListItem>
             {sublist ?
                 <List>
-                    {["create", "update", "delete"].map((operation, index) => (
+                    {["create", "edit"].map((operation, index) => (
                         <SideMenuEntityOperation entity={entity} operation={operation} closeSideMenu={closeSideMenu}/>
                     ))}
                 </List>
