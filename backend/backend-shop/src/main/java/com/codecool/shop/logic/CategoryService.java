@@ -23,19 +23,20 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
-    public Optional<Category> findById(long id){
-        return categoryRepository.findById(id);
+    public Category findById(long id){
+        Optional<Category>category=  categoryRepository.findById(id);
+        if (category.isPresent()){
+            return category.get();
+        }else {
+            throw new CategoryNotFoundException(id);
+        }
     }
 
 
 
     public long delete(long id) {
-        Optional<Category> productCategory = findById(id);
-        if (productCategory.isPresent()){
-            categoryRepository.delete(productCategory.get());
-            return productCategory.get().getId();
-        }else {
-            throw new CategoryNotFoundException(id);
-        }
+        Category category = findById(id);
+        categoryRepository.delete(category);
+        return id;
     }
 }

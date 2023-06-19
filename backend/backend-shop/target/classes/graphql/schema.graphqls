@@ -61,9 +61,19 @@ type Brand {
     name: String!
 }
 
+input CategoryInput {
+    id: ID!
+    name: String!
+}
+
+input BrandInput {
+    id: ID!
+    name: String!
+}
+
 input ProductInput {
-    categoryId: ID!
-    brandId: ID!
+    category: CategoryInput!
+    brand: BrandInput!
     name: String!
     description: String!
     price: BigDecimal!

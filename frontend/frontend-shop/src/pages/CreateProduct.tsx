@@ -45,8 +45,8 @@ function CreateProduct() {
         onSubmit: async (values) => {
             try {
                 let newProduct : ProductInput = {
-                    brandId: values.brand,
-                    categoryId: values.category,
+                    brand: values.brand,
+                    category: values.category,
                     name: values.name,
                     description: values.description,
                     price: parseFloat(values.price),

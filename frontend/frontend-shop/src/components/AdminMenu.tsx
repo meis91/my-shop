@@ -47,7 +47,7 @@ function AdminMenu({toggleDrawer}: AdminMenuProps) {
                             aria-label="login switch"
                         />
                     }
-                    label={auth ? 'Logout' : 'Login'}
+                    label={auth ? "Logout": "Login"}
                 />
             </FormGroup>
             <AppBar position="static">

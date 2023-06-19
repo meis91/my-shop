@@ -10,15 +10,16 @@ import SideMenuEntityOperation from "./SideMenuEntityOperation";
 
 type SideMenuListItemProps = {
     entity: string
+    key: string
     closeSideMenu: () => void
 }
-function SideMenuEntity({entity, closeSideMenu}: SideMenuListItemProps) {
+function SideMenuEntity({entity, key, closeSideMenu}: SideMenuListItemProps) {
     const [sublist, setSublist] = useState(false);
 
     const toggleSublist = () =>{setSublist(!sublist)}
 
     return (
-        <div key={entity}>
+        <div key={key}>
             <ListItem disablePadding>
                 <ListItemButton
                     onClick={toggleSublist}
@@ -30,7 +31,7 @@ function SideMenuEntity({entity, closeSideMenu}: SideMenuListItemProps) {
             {sublist ?
                 <List>
                     {["create", "edit"].map((operation, index) => (
-                        <SideMenuEntityOperation entity={entity} operation={operation} closeSideMenu={closeSideMenu}/>
+                        <SideMenuEntityOperation entity={entity} key={entity + operation + index} operation={operation} closeSideMenu={closeSideMenu}/>
                     ))}
                 </List>
                 : null}

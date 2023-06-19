@@ -9,6 +9,8 @@ type SelectFieldProps = {
     name: string
 }
 function SelectField({formik, fields, name}: SelectFieldProps) {
+
+
     return (
         <div>
             <Select
@@ -25,7 +27,7 @@ function SelectField({formik, fields, name}: SelectFieldProps) {
                     Select {capitalizeFirstLetter(name)}
                 </MenuItem>
                 {fields.map((field) => (
-                    <MenuItem key={field.id} value={field.id}>
+                    <MenuItem key={field.id} value={field}>
                         {field.name}
                     </MenuItem>
                 ))}

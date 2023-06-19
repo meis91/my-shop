@@ -1,5 +1,6 @@
 package com.codecool.shop.controller;
 
+import com.codecool.shop.controller.dto.ProductInputDto;
 import com.codecool.shop.controller.input.ProductInput;
 import com.codecool.shop.logic.CategoryService;
 import com.codecool.shop.logic.ProductService;
@@ -25,7 +26,7 @@ public class ProductController {
     private final ProductService productService;
     private final CategoryService categoryService;
     @MutationMapping
-    public Product createProduct(@Argument(name = "productInput") ProductInput productInput){
+    public Product createProduct(@Argument(name = "productInput") ProductInputDto productInput){
         return productService.create(productInput);
     }
 

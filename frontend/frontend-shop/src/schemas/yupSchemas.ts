@@ -2,10 +2,10 @@ import * as yup from "yup";
 
 export const productValidationSchema = yup.object({
     brand: yup
-        .number()
+        .object()
         .required("Please select a Brand"),
     category: yup
-        .number()
+        .object()
         .required("Please select a Category"),
     name: yup
         .string()

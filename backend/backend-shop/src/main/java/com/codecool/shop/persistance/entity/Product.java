@@ -29,4 +29,20 @@ public class Product {
     private Brand brand;
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private Inventory inventory;
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", statusType=" + statusType +
+                ", price=" + price +
+                ", discountedPrice=" + discountedPrice +
+                ", discount=" + discount +
+                ", category=" + category +
+                ", brand=" + brand +
+                ", inventory=" + inventory +
+                '}';
+    }
 }

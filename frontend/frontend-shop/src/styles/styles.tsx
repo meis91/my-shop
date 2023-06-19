@@ -24,11 +24,15 @@ productCategory: {
     color: '#888',
     marginBottom: '4px',
 },
+productBrand: {
+    fontSize: '12px',
+    color: '#888',
+    marginBottom: '4px',
+},
 productPrice: {
     fontSize: '14px',
     fontWeight: 'bold',
     marginBottom: '4px',
-
 },
 productDiscount: {
     fontSize: '16px',

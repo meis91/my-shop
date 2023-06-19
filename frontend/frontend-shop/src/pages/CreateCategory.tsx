@@ -27,7 +27,7 @@ const CreateCategory = () => {
                         name: values.name,
                     },
                 });
-                console.log(response.data);
+                console.log(data);
                 navigate(-1);
             } catch (error) {
                 console.error(error);

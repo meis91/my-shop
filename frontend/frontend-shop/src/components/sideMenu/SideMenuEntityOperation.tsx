@@ -8,10 +8,11 @@ import {capitalizeFirstLetter} from "../../util";
 type SideMenuEntityOperationProps = {
     operation: string,
     entity: string,
+    key: string,
     closeSideMenu: () => void
 }
 
-function SideMenuEntityOperation({entity, operation, closeSideMenu}: SideMenuEntityOperationProps) {
+function SideMenuEntityOperation({entity, operation, key, closeSideMenu}: SideMenuEntityOperationProps) {
     const navigate = useNavigate();
 
     const handleNavigation = () => {
@@ -21,7 +22,7 @@ function SideMenuEntityOperation({entity, operation, closeSideMenu}: SideMenuEnt
     }
 
     return (
-        <div key={operation}>
+        <div key={key}>
             <ListItem disablePadding>
 
                     <ListItemButton

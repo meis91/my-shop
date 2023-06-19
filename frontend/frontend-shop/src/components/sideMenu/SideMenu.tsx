@@ -24,8 +24,8 @@ function SideMenu({closeSideMenu}: SideMenuProps) {
             role="presentation"
         >
             <List>
-                {["product", "brand", "category", "discount"].map((text) => (
-                    <SideMenuEntity entity={text} closeSideMenu={closeSideMenu}/>
+                {["product", "brand", "category", "discount"].map((text, index) => (
+                    <SideMenuEntity entity={text} key={text + index} closeSideMenu={closeSideMenu}/>
                 ))}
             </List>
         </Box>

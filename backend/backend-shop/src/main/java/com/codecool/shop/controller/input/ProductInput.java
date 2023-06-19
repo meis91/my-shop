@@ -21,6 +21,7 @@ public class ProductInput {
         product.setName(this.name);
         product.setDescription(this.description);
         product.setPrice(this.price);
+
         return product;
     }
 

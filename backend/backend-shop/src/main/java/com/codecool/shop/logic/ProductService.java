@@ -1,5 +1,6 @@
 package com.codecool.shop.logic;
 
+import com.codecool.shop.controller.dto.ProductInputDto;
 import com.codecool.shop.controller.input.ProductInput;
 import com.codecool.shop.logic.exeptions.CategoryNotFoundException;
 import com.codecool.shop.logic.exeptions.DiscountNotFoundException;
@@ -8,6 +9,7 @@ import com.codecool.shop.logic.util.DiscountCalculation;
 import com.codecool.shop.persistance.entity.*;
 import com.codecool.shop.persistance.repositiory.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -23,11 +25,12 @@ public class ProductService {
     private final DiscountService discountService;
     private final CategoryService categoryService;
     private final BrandService brandService;
+    private final ModelMapper modelMapper;
 
 
-    public Product create(ProductInput productInput){
-        Product product = productInput.getProductEntity();
-        Inventory inventory = productInput.getProductInventoryEntity();
+    public Product create(ProductInputDto productInputDto){
+        Product product = convertToEntity(productInputDto);
+        /*Inventory inventory = productInput.getProductInventoryEntity();
         product.setInventory(inventory);
         long categoryId = productInput.getCategoryId();
         Optional<Category> productCategory = categoryService.findById(categoryId);
@@ -38,7 +41,7 @@ public class ProductService {
             product.setCategory(productCategory.get());
         } else {
             throw new CategoryNotFoundException(categoryId);
-        }
+        }*/
 
         return productRepository.save(product);
     }
@@ -98,5 +101,20 @@ public class ProductService {
 
     public Page<Product> findAllProductsPaginated(PageRequest pageRequest) {
         return productRepository.findAll(pageRequest);
+    }
+
+    private Product convertToEntity(ProductInputDto productInputDto){
+
+
+        modelMapper.typeMap(ProductInputDto.class, Product.class).addMappings(mp -> {
+            mp.skip(Product::setId);
+            mp.skip(Product::setDiscount);
+        });
+        Product product = modelMapper.map(productInputDto, Product.class);
+       /* product.setBrand(brand);
+        product.setCategory(category);*/
+        product.setDiscount(null);
+        System.out.println("product = " + product);
+        return product;
     }
 }

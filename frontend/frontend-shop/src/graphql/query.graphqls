@@ -43,6 +43,28 @@ query findAllProducts{
     }
 }
 
+query findAllProductsPaged($page: Int, $size: Int){
+    findAllProductsPaged(page: $page, size: $size){
+        id
+        name
+        price
+        discountedPrice
+        discount {
+            id
+            name
+            percentage
+        }
+        category{
+            id
+            name
+        }
+        brand {
+            id
+            name
+        }
+    }
+}
+
 query findProduct($id: ID!){
     findProduct(id: $id){
         id
